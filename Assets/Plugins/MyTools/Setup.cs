@@ -10,7 +10,7 @@ public static class Setup
     {
         string defaultFolderPath = "";
 
-        FoldersCreator.CreateDefault(defaultFolderPath, "Animations", "Materials", "Prefabs", "Scripts", "ScriptableObjects");
+        FoldersCreator.CreateDefault(defaultFolderPath, "Animations", "Materials", "Prefabs", "Scripts", "ScriptableObjects", "Plugins");
         FoldersCreator.CreateDefault(defaultFolderPath + "Animations", "Animations Clips", "Animator Cotrollers");
         FoldersCreator.CreateDefault(defaultFolderPath + "Materials", "Materials", "Models", "Textures");
         FoldersCreator.CreateDefault(defaultFolderPath + "Scripts", "Input");
@@ -19,6 +19,17 @@ public static class Setup
 
         Refresh();
 
+    }
+
+    [MenuItem("Tools/Setup/Import My Favorite Assets")]
+    public static void ImportAssets()
+    {
+        AssetsCreator.ImportAsset("DOTween HOTween v2.unitypackage", "Asset Store-5.x\\Demigiant");
+        AssetsCreator.ImportAsset("Selection History.unitypackage", "Asset Store-5.x\\Staggart Creations");
+        AssetsCreator.ImportAsset("Replace Selected.unitypackage", "Asset Store-5.x\\Staggart Creations");
+        AssetsCreator.ImportAsset("Odin Inspector and Serializer v3.3.1.5 (03 Jul 2024).unitypackage", "Asset Store-5.x\\Odin Inspector and Serializer v3.3.1.5 (03 Jul 2024)");
+        AssetsCreator.ImportAsset("Odin Validator v3.3.1.11.unitypackage", "Asset Store-5.x\\Odin Validator v3.3.1.11");
+        AssetsCreator.ImportAsset("Editor Console Pro v3.974.unitypackage", "Asset Store-5.x\\Unity Asset - Editor Console Pro v3.974");
     }
 }
 
@@ -69,5 +80,22 @@ public static class SctiptCreator
                 File.Move(filePath, newFilePath);
             }
         }
+    }
+}
+
+public static class AssetsCreator
+{
+    public static void ImportAsset(string asset, string subfolder, string folder = "C:\\Users\\gysev\\AppData\\Roaming\\Unity")
+    {
+        string assetFolderName = Application.dataPath;
+        Debug.Log(assetFolderName);
+        string assetPathOnPC = Path.Combine(folder, subfolder, asset);
+
+        AssetDatabase.ImportPackage(assetPathOnPC, false);
+
+        //if (AssetDatabase.AssetPathExists(assetPathOnPC))
+        //{
+        //    AssetDatabase.ImportPackage(assetPathOnPC, false);
+        //}
     }
 }
