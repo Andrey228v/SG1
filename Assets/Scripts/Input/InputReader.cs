@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -13,6 +14,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     public Vector3 DirectionMove {  get; private set; }
 
     public event UnityAction<Vector2> OnMoved;
+    public event Action OnJumped;
     public event UnityAction<Vector2> OnMoveStoped;
     public event UnityAction<Vector2, bool> OnLooked;
     public event UnityAction EnableMouseControlCamera;
@@ -56,7 +58,7 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        
+        OnJumped?.Invoke();
     }
 
     public void OnLook(InputAction.CallbackContext context)

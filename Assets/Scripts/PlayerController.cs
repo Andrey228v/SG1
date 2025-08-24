@@ -1,4 +1,5 @@
-﻿using Unity.Cinemachine;
+﻿using Assets.Scripts.DetectorProperties;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -13,6 +14,8 @@ namespace Assets.Scripts
         [SerializeField] private PlayerView _playerView;
         [SerializeField] private AnimatorPersonController _animatorPersonController;
         [SerializeField] private InputReader _inputReader;
+        [SerializeField] private GroundChecker _groundChecker;
+        [SerializeField] private SlopeChecker _slopeChecker;
 
         [Header("Settings:")]
         [SerializeField] private float _moveSpeed = 5f;
@@ -38,20 +41,26 @@ namespace Assets.Scripts
         {
             _inputReader.OnMoved += _cameraController.MoveDirectionToCameraDirection;
             _inputReader.OnMoved += _animatorPersonController.SetMove;
+            _inputReader.OnJumped += _playerView.Jump;
             _inputReader.OnMoveStoped += _cameraController.MoveDirectionToCameraDirection;
             _inputReader.OnLooked += _cameraController.Rotate;
             _cameraController.OnRoteted += _playerView.Rotate;
             _cameraController.OnDirectionChanged += _playerView.SetMoveDirection;
+            _groundChecker.OnGround += _playerView.SetIsGround;
+            _groundChecker.OnGroundNormal += _slopeChecker.SetHit;
         }
 
         private void OnDisable()
         {
             _inputReader.OnMoved -= _cameraController.MoveDirectionToCameraDirection;
             _inputReader.OnMoved -= _animatorPersonController.SetMove;
+            _inputReader.OnJumped -= _playerView.Jump;
             _inputReader.OnMoveStoped -= _cameraController.MoveDirectionToCameraDirection;
             _inputReader.OnLooked -= _cameraController.Rotate;
             _cameraController.OnRoteted -= _playerView.Rotate;
             _cameraController.OnDirectionChanged -= _playerView.SetMoveDirection;
+            _groundChecker.OnGround -= _playerView.SetIsGround;
+            _groundChecker.OnGroundNormal -= _slopeChecker.SetHit;
         }
     }
 }

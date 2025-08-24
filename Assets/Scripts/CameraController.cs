@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     private Transform _cameraTransorm;
 
     public event Action<Vector3> OnRoteted;
-    public event Action<Quaternion> OnRotetedQuaternion;
+    //public event Action<Quaternion> OnRotetedQuaternion;
     public event Action<Vector3> OnDirectionChanged;
 
     private void Awake()
@@ -51,5 +51,7 @@ public class CameraController : MonoBehaviour
     public void MoveDirectionToCameraDirection(Vector2 direction)
     {
         _moveDirection = new Vector3(direction.x, 0, direction.y).normalized;
+        //Debug.Log($"_moveDirection: {_moveDirection}");
+        
     }
 }
