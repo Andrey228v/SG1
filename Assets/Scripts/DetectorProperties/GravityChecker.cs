@@ -25,7 +25,7 @@ namespace Assets.Scripts.DetectorProperties
 
         private void CheckGravity()
         {
-            Debug.Log($"_rigidBody.linearVelocity.y: {_rigidBody.linearVelocity.y}");
+            //Debug.Log($"_rigidBody.linearVelocity.y: {_rigidBody.linearVelocity.y}");
 
             if (_rigidBody.linearVelocity.y > 0)
             {
@@ -40,7 +40,7 @@ namespace Assets.Scripts.DetectorProperties
             else if(_rigidBody.linearVelocity.y == 0)
             {
                 _isGravity = false;
-                Debug.Log($"???????");
+                //Debug.Log($"???????");
             }
         }
     }

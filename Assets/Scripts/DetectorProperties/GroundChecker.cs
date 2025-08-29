@@ -8,7 +8,7 @@ namespace Assets.Scripts
         [Header("BoxCast Settings")]
         [SerializeField] private Vector3 _boxSize = new Vector3(0.5f, 0.1f, 0.5f);
         [SerializeField] private float _castDistance = 0.2f;
-        [SerializeField] private float _groundCheckDistance = 0.1f;
+        //[SerializeField] private float _groundCheckDistance = 0.1f;
         [SerializeField] private float _groundCheckOffset = 0.05f;
 
         [Header("Debug")]
@@ -41,12 +41,12 @@ namespace Assets.Scripts
         private void CheckGround()
         {
             Vector3 boxCenter = transform.position + Vector3.down * _groundCheckOffset;
-            Vector3 boxHalfExtents = _boxSize * 0.5f;
+            //Vector3 boxHalfExtents = _boxSize * 0.5f;
 
             _isGrounded = Physics.BoxCast
                 (
                     boxCenter,
-                    boxHalfExtents,
+                    _boxSize * 0.5f,
                     Vector3.down,
                     out _groundHit,
                     Quaternion.identity,
@@ -61,13 +61,11 @@ namespace Assets.Scripts
             
             if(_isGrounded && _isEventSent == false)
             {
-                Debug.Log("True event");
                 OnGround?.Invoke(_isGrounded);
                 _isEventSent = true;
             }
             else if(_isGrounded == false && _isEventSent)
             {
-                Debug.Log("False event");
                 OnGround?.Invoke(_isGrounded);
                 _isEventSent = false;
             }
