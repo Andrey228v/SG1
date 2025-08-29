@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Assets.Scripts
 {
@@ -11,6 +10,7 @@ namespace Assets.Scripts
         private const string StaticIdle = "Static_b";
         private const string Speed = "Speed_f";
         private const string IsJumping = "IsJumping_b";
+        private const string IsFalling_b = "IsFalling_b";
 
         private Vector3 _moveDirection;
 
@@ -24,13 +24,30 @@ namespace Assets.Scripts
             _animator.SetBool(StaticIdle, isStatic);
         }
 
-        public void SetMove(Vector2 direction)
+        public void SetMove(bool isMove)
         {
-            _moveDirection = new Vector3(direction.x, 0, direction.y);
-            float speed = _moveDirection.magnitude;
-            //Debug.Log($"speed: {speed}, _moveDirection: {_moveDirection}, direction: {direction}");
+            float speed;
+
+            if (isMove)
+            {
+                speed = 1;
+            }
+            else
+            {
+                speed = 0;
+            }
+
             _animator.SetFloat(Speed, speed);
         }
 
+        public void SetJump(bool isJump) 
+        {
+            _animator.SetBool(IsJumping, isJump);
+        }
+
+        public void SetFall(bool isFall) 
+        {
+            _animator.SetBool(IsFalling_b, isFall);
+        }
     }
 }

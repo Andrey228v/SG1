@@ -626,6 +626,9 @@ GameObject:
   - component: {fileID: 2646222843480915882}
   - component: {fileID: 7963268078961495033}
   - component: {fileID: 7411212174575022381}
+  - component: {fileID: 2436904250144278398}
+  - component: {fileID: 6904717228668791317}
+  - component: {fileID: 4237559146990939163}
   m_Layer: 0
   m_Name: OriginalFBXRIG
   m_TagString: Untagged
@@ -696,9 +699,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
+  m_Interpolate: 1
+  m_Constraints: 112
+  m_CollisionDetection: 2
 --- !u!114 &5620003286430622255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,13 +714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca786263ed8baa4a9a0ddd9ff49c071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
-  _jumpForce: 5
-  _rotateSpeed: 500
-  _groundDragMovement: 5
-  _groundDragStay: 200
-  _fallMultiplier: 2.5
-  _lowJumpMultiplier: 2
 --- !u!136 &4344789062133857566
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -793,6 +789,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc104dbd57c396b4eb253eedbe0d6b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxSlopeAngle: 75
+--- !u!114 &2436904250144278398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032692036256444754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f660aecb83496c2439a34f07392c208e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Settings>k__BackingField: {fileID: 11400000, guid: 0579468845205064faef2e4dd9c51101, type: 2}
+--- !u!114 &6904717228668791317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032692036256444754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75dd511bc15a7d84cb72c68fb4165a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4237559146990939163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032692036256444754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d1badc04f83904a805c0d54b6a8520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6446766628028455161

@@ -11,10 +11,13 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     //public Vector3 DirectionMove => _playerInput.Player.Move.ReadValue<Vector2>();
 
-    public Vector3 DirectionMove {  get; private set; }
+    //public Vector3 DirectionMove {  get; private set; }
 
-    public event UnityAction<Vector2> OnMoved;
+    public event UnityAction<Vector2> OnDirectionMoveChandged;
     public event Action OnJumped;
+    public event Action OnJumpedCanceled;
+    public event Action OnMoved;
+    public event Action OnStoped;
     public event UnityAction<Vector2> OnMoveStoped;
     public event UnityAction<Vector2, bool> OnLooked;
     public event UnityAction EnableMouseControlCamera;
@@ -58,7 +61,15 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        OnJumped?.Invoke();
+        if(context.started == true)
+        {
+            OnJumped?.Invoke();
+        }
+        else if(context.canceled == true)
+        {
+            OnJumpedCanceled?.Invoke();
+        }
+
     }
 
     public void OnLook(InputAction.CallbackContext context)
@@ -68,18 +79,19 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        DirectionMove = _playerInput.Player.Move.ReadValue<Vector2>();
-
-        OnMoved?.Invoke(context.ReadValue<Vector2>());
-
-        //if(DirectionMove.magnitude > 0)
-        //{
-        //    OnMoved?.Invoke(context.ReadValue<Vector2>());
-        //}
-        //else
-        //{
-        //    OnMoveStoped?.Invoke(context.ReadValue<Vector2>());
-        //}
+        if(context.started == true)
+        {
+            OnDirectionMoveChandged?.Invoke(context.ReadValue<Vector2>());
+            OnMoved?.Invoke();
+        }
+        else if (context.performed == true)
+        {
+            OnDirectionMoveChandged?.Invoke(context.ReadValue<Vector2>());
+        }
+        else if (context.canceled == true)
+        {
+            OnStoped?.Invoke();
+        }
     }
 
     public void OnNext(InputAction.CallbackContext context)
