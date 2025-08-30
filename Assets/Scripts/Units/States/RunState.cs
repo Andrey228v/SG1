@@ -7,7 +7,8 @@ namespace Assets.Scripts.StateMachineUnit
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
-
+        //private float _deleySetFallState = 0.2f;
+        //private float _currentDeleyFall;
         public RunState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
             _unit = unit;
@@ -18,6 +19,7 @@ namespace Assets.Scripts.StateMachineUnit
         {
             _unit.PlayerView.SetDrag(_playerStateMachine.Settings.GroundDragMovement);
             _unit.AnimatorPersonController.SetMove(true);
+            //_currentDeleyFall = _deleySetFallState;
         }
 
         public void Exit()
@@ -47,7 +49,7 @@ namespace Assets.Scripts.StateMachineUnit
                 _unit.AnimatorPersonController.SetMove(false);
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
-            else if (_unit.PlayerView.GetVelosity().y < 0 && _unit.PlayerView.IsGrounded == false)
+            else if (_unit.PlayerView.GetVelosity().y < -1f && _unit.PlayerView.IsGrounded == false)
             {
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }

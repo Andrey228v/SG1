@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.DetectorProperties;
+using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
 using Assets.Scripts.StateMachineUnit;
 using Assets.Scripts.Units.States;
 using UnityEngine;
@@ -9,9 +10,12 @@ namespace Assets.Scripts.Units
     [RequireComponent(typeof(SlopeChecker), typeof(PlayerStateMachine), typeof(SignalReader))]
     public class Unit : MonoBehaviour
     {
+        [field: SerializeField] public AGroundCheckerStrategy AGroundChecker { get; private set; }
+        
+
         public PlayerView PlayerView { get; private set; }
         public AnimatorPersonController AnimatorPersonController { get; private set; }
-        public GroundChecker GroundChecker { get; private set; }
+        //public GroundChecker GroundChecker { get; private set; }
         public SlopeChecker SlopeChecker { get; private set; }
         public PlayerStateMachine PlayerStateMachine { get; private set; }
         public SignalReader SignalReader { get; private set; }
@@ -21,7 +25,7 @@ namespace Assets.Scripts.Units
         {
             PlayerView = GetComponent<PlayerView>();
             AnimatorPersonController = GetComponent<AnimatorPersonController>();
-            GroundChecker = GetComponent<GroundChecker>();
+            //GroundChecker = GetComponent<GroundChecker>();
             SlopeChecker = GetComponent<SlopeChecker>();
             PlayerStateMachine = GetComponent<PlayerStateMachine>();
             SignalReader = GetComponent<SignalReader>();
@@ -29,17 +33,28 @@ namespace Assets.Scripts.Units
 
         private void OnEnable()
         {
-            GroundChecker.OnGround += PlayerView.SetIsGround;
+            AGroundChecker.OnGround += PlayerView.SetIsGround;
         }
 
         private void OnDisable()
         {
-            GroundChecker.OnGround -= PlayerView.SetIsGround;
+            AGroundChecker.OnGround -= PlayerView.SetIsGround;
+        }
+
+        private void Update()
+        {
+            AGroundChecker.CheckGround(transform);
+        }
+
+        private void OnDrawGizmos()
+        {
+            AGroundChecker.OnDrawGizmos(transform);
         }
 
         public void ProcessSignalDirection(Vector3 direction)
         {
-            Vector3 normal = GroundChecker.GetGroundNormal();
+            //Vector3 normal = GroundChecker.GetGroundNormal();
+            Vector3 normal = AGroundChecker.GetGroundNormal();
             Vector3 project = Vector3.ProjectOnPlane(direction, normal).normalized;
 
             PlayerView.SetMoveDirection(project);
