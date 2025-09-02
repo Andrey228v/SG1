@@ -3,7 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(GroundChecker))]
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerView : MonoBehaviour
 {
     //[SerializeField] private float _speed  = 75.0f;
@@ -39,7 +39,8 @@ public class PlayerView : MonoBehaviour
 
     public void Move(float speed, float rotateSpeed)
     {
-        _rb.AddForce(_moveDirection * speed, ForceMode.Force);
+        //_rb.AddForce(_moveDirection * speed, ForceMode.Force);
+        _rb.MovePosition(_rb.position + _moveDirection * speed * Time.fixedDeltaTime);
 
         if (_moveDirection.magnitude > 0)
         {
@@ -48,12 +49,17 @@ public class PlayerView : MonoBehaviour
         }
     }
 
+    public void FallMove(float speed)
+    {
+
+    }
+
 
     public void Jump(float jumpForce)
     {
         if (IsGrounded) 
         {
-            //_rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z); // Не знаю нужно ли - надо тестить. Сброс ускорения перед прыжком.
+            _rb.linearVelocity = new Vector3(0f, 0f, 0f); // Не знаю нужно ли - надо тестить. Сброс ускорения перед прыжком.
             _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
 
@@ -68,7 +74,8 @@ public class PlayerView : MonoBehaviour
     {
         Debug.DrawRay(transform.position, direction * 5f, Color.white, 1f);
         Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+        Quaternion q = new Quaternion(0f, targetRotation.y, 0f, targetRotation.w);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotateSpeed * Time.fixedDeltaTime);
     }
 
     public void SetIsGround(bool isGround)

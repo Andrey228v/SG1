@@ -16,6 +16,7 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
+            _unit.PlayerView.SetDrag(_unit.Settings.DragFall);
             _unit.AnimatorPersonController.SetFall(true);
         }
 
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Units.States
 
         public void FixedUpdate()
         {
-            
+            _unit.PlayerView.Move(_unit.Settings.JumpSpeedMove, _unit.Settings.RotateSpeed);
         }
 
         public void UpdateState()

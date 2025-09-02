@@ -90,6 +90,7 @@ public class InputReader : ScriptableObject, IPlayerActions
         }
         else if (context.canceled == true)
         {
+            OnDirectionMoveChandged?.Invoke(context.ReadValue<Vector2>());
             OnStoped?.Invoke();
         }
     }

@@ -12,12 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89674fbf75f2e784cbef3818cdd95410, type: 3}
   m_Name: UnitSettingMaxPower
   m_EditorClassIdentifier: 
-  <RunSpeed>k__BackingField: 150
-  <RotateSpeed>k__BackingField: 1000
-  <JumpForce>k__BackingField: 20
-  <GroundDragMovement>k__BackingField: 2
-  <GroundDragStay>k__BackingField: 200
-  <FallMultiplier>k__BackingField: 2
-  <LowJumpMultiplier>k__BackingField: 1
-  <MaxSlopeAngle>k__BackingField: 80
-  <SlideSpeed>k__BackingField: 200
+  _staySpeed: 0
+  _runSpeed: 75
+  _rotateSpeed: 500
+  _aGroundChecker: {fileID: 11400000, guid: ab57ede4d4aeb2c42b6d8ddaddff5377, type: 2}
+  _jumpForce: 13
+  _groundDragMovement: 5
+  _groundDragStay: 200
+  _dragJump: 0
+  _dragFall: 0
+  _fallMultiplier: 2.5
+  _lowJumpMultiplier: 1.5
+  _maxSlopeAngle: 75
+  _slideSpeed: 150

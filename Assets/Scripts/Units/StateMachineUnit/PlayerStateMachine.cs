@@ -8,7 +8,7 @@ namespace Assets.Scripts.StateMachineUnit
 {
     public class PlayerStateMachine : MonoBehaviour
     {
-        [field: SerializeField] public UnitSetting Settings { get; private set; }
+        //[field: SerializeField] public UnitSetting Settings { get; private set; }
 
         private Unit _unit;
         private StayState _stayState;
