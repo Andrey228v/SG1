@@ -20,6 +20,8 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
+            _unit.PlayerView.SetDrag(_unit.Settings.DragJump);
+            _unit.PlayerView.SetMoveDirection(Vector3.zero);
             _currentDeley = _deleySetNextState;
             _isJumping = false;
             _unit.AnimatorPersonController.SetJump(true);
@@ -34,11 +36,15 @@ namespace Assets.Scripts.Units.States
         {
             if (_isJumping == false) 
             {
-                _unit.PlayerView.Jump(_playerStateMachine.Settings.JumpForce);
+                _unit.PlayerView.Jump(_unit.Settings.JumpForce);
                 _isJumping = true;
             }
+            else
+            {
+                _unit.PlayerView.Move(_unit.Settings.JumpSpeedMove, _unit.Settings.RotateSpeed);
+            }
 
-            
+
         }
 
         public void UpdateState()

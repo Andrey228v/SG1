@@ -23,7 +23,6 @@ namespace Assets.Scripts
         private void OnEnable()
         {
             _inputReader.OnDirectionMoveChandged += _cameraController.MoveDirectionToCameraDirection;
-            _inputReader.OnLooked += _cameraController.Rotate;
             _cameraController.OnDirectionChanged += _unit.ProcessSignalDirection;
             _inputReader.OnMoved += _unit.SetProcessSignalMove;
             _inputReader.OnStoped += _unit.SetProcessSignalStop;
@@ -35,7 +34,6 @@ namespace Assets.Scripts
         private void OnDisable()
         {
             _inputReader.OnDirectionMoveChandged -= _cameraController.MoveDirectionToCameraDirection;
-            _inputReader.OnLooked -= _cameraController.Rotate;
             _cameraController.OnDirectionChanged -= _unit.ProcessSignalDirection;
             _inputReader.OnMoved -= _unit.SetProcessSignalMove;
             _inputReader.OnStoped -= _unit.SetProcessSignalStop;

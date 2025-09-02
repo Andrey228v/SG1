@@ -1,4 +1,6 @@
 ﻿using Assets.Scripts.StateMachineUnit;
+using UnityEngine;
+
 
 namespace Assets.Scripts.Units.States
 {
@@ -15,7 +17,7 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
-            _unit.PlayerView.SetDrag(_playerStateMachine.Settings.GroundDragStay);
+            _unit.PlayerView.SetDrag(_unit.Settings.GroundDragStay);
             _unit.AnimatorPersonController.SetStatic(true);
         }
 
@@ -40,8 +42,8 @@ namespace Assets.Scripts.Units.States
         {
             if(_unit.SignalReader.IsJump == true)
             {
-                _unit.PlayerView.SetDrag(0);
                 //_unit.AnimatorPersonController.SetJump(true);
+                //_unit.PlayerView.SetMoveDirection(Vector3.zero);
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }
             else if (_unit.SignalReader.IsMove == true)
@@ -49,7 +51,7 @@ namespace Assets.Scripts.Units.States
                 _unit.AnimatorPersonController.SetStatic(false);
                 _playerStateMachine.SelectState(UnitStateType.Run);
             }
-            else if (_unit.PlayerView.GetVelosity().y < 0 && _unit.PlayerView.IsGrounded == false)
+            else if (_unit.PlayerView.GetVelosity().y < -0.1f && _unit.PlayerView.IsGrounded == false)
             {
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }

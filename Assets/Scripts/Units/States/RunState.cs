@@ -17,7 +17,7 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void Enter()
         {
-            _unit.PlayerView.SetDrag(_playerStateMachine.Settings.GroundDragMovement);
+            _unit.PlayerView.SetDrag(_unit.Settings.GroundDragMovement);
             _unit.AnimatorPersonController.SetMove(true);
             //_currentDeleyFall = _deleySetFallState;
         }
@@ -29,11 +29,12 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void FixedUpdate()
         {
-            _unit.PlayerView.Move(_playerStateMachine.Settings.RunSpeed, _playerStateMachine.Settings.RotateSpeed);
+            _unit.PlayerView.Move(_unit.Settings.RunSpeed, _unit.Settings.RotateSpeed);
         }
 
         public void UpdateState()
         {
+            //_unit.PlayerView.Move(_unit.Settings.RunSpeed, _unit.Settings.RotateSpeed);
             CheckSwitchStates();
         }
         
@@ -49,7 +50,7 @@ namespace Assets.Scripts.StateMachineUnit
                 _unit.AnimatorPersonController.SetMove(false);
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
-            else if (_unit.PlayerView.GetVelosity().y < -1f && _unit.PlayerView.IsGrounded == false)
+            else if (_unit.PlayerView.GetVelosity().y < -0.1f && _unit.PlayerView.IsGrounded == false)
             {
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }

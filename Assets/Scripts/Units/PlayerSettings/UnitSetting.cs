@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
+using UnityEngine;
 
 namespace Assets.Scripts.PlayerSettings
 {
@@ -6,24 +7,45 @@ namespace Assets.Scripts.PlayerSettings
     public class UnitSetting : ScriptableObject
     {
         [Header("Movement Settings")]
-        [field: SerializeField] public float StaySpeed { get; private set; }
-        [field: SerializeField] public float RunSpeed { get; private set; }
-        [field: SerializeField] public float RotateSpeed { get; private set; }
+        [SerializeField] private float _staySpeed = 0;
+        [SerializeField] private float _runSpeed = 75;
+        [SerializeField] private float _rotateSpeed = 500;
+
+        [Header("GroundChecker")]
+        [SerializeField] private AGroundCheckerStrategy _aGroundChecker;
 
         [Header("Jump")]
-        [field: SerializeField] public float JumpForce { get; private set; }
+        [SerializeField] private float _jumpForce = 20;
+        [SerializeField] private float _jumpSpeedMove = 20;
 
         [Header("Drags")]
-        [field: SerializeField] public float GroundDragMovement { get; private set; }
-        [field: SerializeField] public float GroundDragStay { get; private set; }
+        [SerializeField] private float _groundDragMovement = 5;
+        [SerializeField] private float _groundDragStay = 200;
+        [SerializeField] private float _dragJump = 0;
+        [SerializeField] private float _dragFall = 0;
 
         [Header("Gravity Control")]
-        [field: SerializeField] public float FallMultiplier { get; private set; }
-        [field: SerializeField] public float LowJumpMultiplier { get; private set; }
+        [SerializeField] private float _fallMultiplier = 2.5f;
+        [SerializeField] private float _lowJumpMultiplier = 1.5f;
 
         [Header("Slope")]
-        [field: SerializeField] public float MaxSlopeAngle { get; private set; }
-        [field: SerializeField] public float SlideSpeed { get; private set; }
+        [SerializeField] private float _maxSlopeAngle = 75;
+        [SerializeField] private float _slideSpeed = 150;
+
+        public float StaySpeed => _staySpeed;
+        public float RunSpeed => _runSpeed;
+        public float RotateSpeed => _rotateSpeed;
+        public AGroundCheckerStrategy AGroundChecker => _aGroundChecker;
+        public float JumpForce => _jumpForce;
+        public float JumpSpeedMove => _jumpSpeedMove;
+        public float GroundDragMovement => _groundDragMovement;
+        public float GroundDragStay => _groundDragStay;
+        public float DragJump => _dragJump;
+        public float DragFall => _dragFall;
+        public float FallMultiplier => _fallMultiplier;
+        public float LowJumpMultiplier => _lowJumpMultiplier;
+        public float MaxSlopeAngle => _maxSlopeAngle;
+        public float SlideSpeed => _slideSpeed;
 
     }
 }

@@ -9,12 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb166a349a4085b43b9b8aeed10e9a21, type: 3}
-  m_Name: SphereGroundChecker
+  m_Script: {fileID: 11500000, guid: 23792a6b450491d48b0f6a90141922e4, type: 3}
+  m_Name: TestSO
   m_EditorClassIdentifier: 
-  _sphereRadius: 0.9
-  _castDistance: 2.03
-  _groundCheckOffset: -2.05
-  _castOffset: {x: 1, y: 0.1, z: 1}
-  _showDebugGizmos: 1
-  _gizmoColor: {r: 0, g: 1, b: 0, a: 1}
+  <_baseGravity>k__BackingField: 0
+  <_maxFallSpeed>k__BackingField: 0
+  <_gravityMultiplier>k__BackingField: 0

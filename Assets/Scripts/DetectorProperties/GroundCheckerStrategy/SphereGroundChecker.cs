@@ -119,8 +119,5 @@ namespace Assets.Scripts.DetectorProperties.GroundCheckerStrategy
                 center + Vector3.down * radius
             );
         }
-
-
-
     }
 }
