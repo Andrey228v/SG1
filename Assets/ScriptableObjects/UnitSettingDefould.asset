@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: UnitSettingDefould
   m_EditorClassIdentifier: 
   _staySpeed: 0
-  _runSpeed: 13.6
+  _runSpeed: 15
   _rotateSpeed: 500
   _aGroundChecker: {fileID: 11400000, guid: ab57ede4d4aeb2c42b6d8ddaddff5377, type: 2}
-  _jumpForce: 939
+  _jumpForce: 34.54
   _jumpSpeedMove: 13
+  _maxJumpTime: 2
+  _maxJumpHeight: 476.3
   _groundDragMovement: 5
   _groundDragStay: 200
   _dragJump: 0
   _dragFall: 0
+  _gravity: 9.8
+  _gravityGround: 2
   _fallMultiplier: 2.5
   _lowJumpMultiplier: 1.5
   _maxSlopeAngle: 75

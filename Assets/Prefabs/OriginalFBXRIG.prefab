@@ -619,16 +619,14 @@ GameObject:
   m_Component:
   - component: {fileID: 3658827350356666609}
   - component: {fileID: 1170124920700715806}
-  - component: {fileID: 8907246300854644614}
   - component: {fileID: 5620003286430622255}
-  - component: {fileID: 4344789062133857566}
   - component: {fileID: 7094225295547621919}
-  - component: {fileID: 2646222843480915882}
   - component: {fileID: 7963268078961495033}
   - component: {fileID: 7411212174575022381}
   - component: {fileID: 2436904250144278398}
   - component: {fileID: 6904717228668791317}
   - component: {fileID: 4237559146990939163}
+  - component: {fileID: 6703054217036508245}
   m_Layer: 0
   m_Name: OriginalFBXRIG
   m_TagString: Untagged
@@ -675,33 +673,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!54 &8907246300854644614
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032692036256444754}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 112
-  m_CollisionDetection: 2
 --- !u!114 &5620003286430622255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,29 +685,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca786263ed8baa4a9a0ddd9ff49c071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &4344789062133857566
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032692036256444754}
-  m_Material: {fileID: 13400000, guid: 6646a42f52edc4f44ae0d99aaf3e856a, type: 2}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.54
-  m_Height: 6.29
-  m_Direction: 1
-  m_Center: {x: 0, y: 3.07, z: 0}
 --- !u!114 &7094225295547621919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -749,24 +697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201871beb9049fd44a9272f3b25e551f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2646222843480915882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6032692036256444754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b73b92673cdd964eb7548935996226b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _boxSize: {x: 0.5, y: 0.1, z: 0.5}
-  _castDistance: 0.2
-  _groundCheckDistance: 0.1
-  _groundCheckOffset: 0.05
-  _showDebugGizmos: 1
-  _gizmoColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &7963268078961495033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -779,6 +709,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8636e8acca9a04e4d8b8085290957900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _baseGravity: 20
+  _maxFallSpeed: 53
+  _gravityMultiplier: 2
+  _airControl: 0.5
+  _airResistance: 0.1
+  _isGrounded: 0
 --- !u!114 &7411212174575022381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,7 +740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f660aecb83496c2439a34f07392c208e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Settings>k__BackingField: {fileID: 11400000, guid: 0579468845205064faef2e4dd9c51101, type: 2}
 --- !u!114 &6904717228668791317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -817,6 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dd511bc15a7d84cb72c68fb4165a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Settings>k__BackingField: {fileID: 0}
 --- !u!114 &4237559146990939163
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +765,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18d1badc04f83904a805c0d54b6a8520, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!143 &6703054217036508245
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6032692036256444754}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6446766628028455161
 GameObject:
   m_ObjectHideFlags: 0

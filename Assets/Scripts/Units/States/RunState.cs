@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Units;
 using Assets.Scripts.Units.States;
+using UnityEngine;
 
 namespace Assets.Scripts.StateMachineUnit
 {
@@ -7,8 +8,7 @@ namespace Assets.Scripts.StateMachineUnit
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
-        //private float _deleySetFallState = 0.2f;
-        //private float _currentDeleyFall;
+
         public RunState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
             _unit = unit;
@@ -17,9 +17,8 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void Enter()
         {
-            _unit.PlayerView.SetDrag(_unit.Settings.GroundDragMovement);
+            _unit.PlayerView.SetGravity(_unit.Settings.GravityGround);
             _unit.AnimatorPersonController.SetMove(true);
-            //_currentDeleyFall = _deleySetFallState;
         }
 
         public void Exit()
@@ -29,12 +28,12 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void FixedUpdate()
         {
-            _unit.PlayerView.Move(_unit.Settings.RunSpeed, _unit.Settings.RotateSpeed);
+            
         }
 
         public void UpdateState()
         {
-            //_unit.PlayerView.Move(_unit.Settings.RunSpeed, _unit.Settings.RotateSpeed);
+            _unit.PlayerView.Move(_unit.Settings.RunSpeed);
             CheckSwitchStates();
         }
         
@@ -42,7 +41,6 @@ namespace Assets.Scripts.StateMachineUnit
         {
             if (_unit.SignalReader.IsJump == true)
             {
-                _unit.PlayerView.SetDrag(0);
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }
             else if (_unit.SignalReader.IsMove == false)
@@ -50,7 +48,7 @@ namespace Assets.Scripts.StateMachineUnit
                 _unit.AnimatorPersonController.SetMove(false);
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
-            else if (_unit.PlayerView.GetVelosity().y < -0.1f && _unit.PlayerView.IsGrounded == false)
+            else if (_unit.PlayerView.GetIsGrounded() == false)
             {
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }
