@@ -3,66 +3,81 @@ using System;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+//[RequireComponent(typeof(Rigidbody))]
 public class PlayerView : MonoBehaviour
 {
-    //[SerializeField] private float _speed  = 75.0f;
-    //[SerializeField] private float _jumpForce = 5f;
-    //[SerializeField] private float _rotateSpeed = 500f;
+    //private Rigidbody _rb;
+    private CharacterController _characterController;
 
-    //[Header("Drags")]
-    //[SerializeField] private float _groundDragMovement = 5f;
-    //[SerializeField] private float _groundDragStay = 200f;
-
-    //[Header("Gravity Control")]
-    //[SerializeField] private float _fallMultiplier = 2.5f;
-    //[SerializeField] private float _lowJumpMultiplier = 2f;
-
-    private Rigidbody _rb;
-    
     private bool _isMovement;
     private Vector3 _moveDirection = Vector3.zero;
+    private float _rotateSpeed = 500f;
 
     private bool _isEventCheckMovmentSent = false;
+    private float _jumpForce = 0;
+    private float _speed = 0;
+    private float _gravity = 0;
+    private float _verticalVelocity = 0;
 
     public event Action<bool> OnMovment;
     public event Action<bool> OnGravity;
 
-    public bool IsGrounded { get; private set; }
+    public event Action<float> OnGravityAmountChanged;
+    public event Action<float> OnGravityCurrentChanged;
+    public event Action<float> OnJumpAmountChanged;
+    public event Action<float> OnSpeedChanged;
+    public event Action<Vector3> OnForceChanged;
+    public event Action<bool> OnIsGround;
+
+    //public bool IsGrounded { get; private set; }
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
-        _rb.freezeRotation = true;
-        IsGrounded = true;
+        //_rb = GetComponent<Rigidbody>();
+        //_rb.freezeRotation = true;
+        _characterController = GetComponent<CharacterController>();
+        //IsGrounded = true;
     }
 
-    public void Move(float speed, float rotateSpeed)
+    private void Update()
     {
-        //_rb.AddForce(_moveDirection * speed, ForceMode.Force);
-        _rb.MovePosition(_rb.position + _moveDirection * speed * Time.fixedDeltaTime);
+        //SetGravity(1f, 10f);
+        UpdatePosititon();
+        HandleGravity();
 
         if (_moveDirection.magnitude > 0)
         {
-            Rotate(_moveDirection, rotateSpeed);
+            Rotate(_moveDirection, _rotateSpeed);
             _isMovement = true;
         }
     }
 
-    public void FallMove(float speed)
+    public void UpdatePosititon()
     {
+        Vector3 position = new Vector3(_moveDirection.x * _speed, _verticalVelocity, _moveDirection.z * _speed);
+        _characterController.Move(position * Time.deltaTime);
 
+        OnSpeedChanged?.Invoke(Mathf.Sqrt(Mathf.Pow(position.x,2) + Mathf.Pow(position.z,2)));
+        OnForceChanged?.Invoke(position);
+        Debug.DrawRay(transform.position, position, Color.red, 1f);
     }
 
+    public void Move(float speed)
+    {
+        _speed = speed;
+    }
+
+    public bool GetIsGrounded()
+    {
+        bool isGround = _characterController.isGrounded;
+        OnIsGround?.Invoke(isGround);
+        return isGround;
+    }
 
     public void Jump(float jumpForce)
     {
-        if (IsGrounded) 
-        {
-            _rb.linearVelocity = new Vector3(0f, 0f, 0f); // Не знаю нужно ли - надо тестить. Сброс ускорения перед прыжком.
-            _rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
-
+        _verticalVelocity = jumpForce;
+        OnJumpAmountChanged.Invoke(jumpForce);
     }
 
     public void SetMoveDirection(Vector3 direction)
@@ -70,93 +85,35 @@ public class PlayerView : MonoBehaviour
         _moveDirection = direction;
     }
 
+    public void SetGravity(float gravity)
+    {
+        _gravity = gravity;
+        OnGravityAmountChanged?.Invoke(_gravity);
+    }
+
     public void Rotate(Vector3 direction, float rotateSpeed)
     {
         Debug.DrawRay(transform.position, direction * 5f, Color.white, 1f);
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         Quaternion q = new Quaternion(0f, targetRotation.y, 0f, targetRotation.w);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotateSpeed * Time.fixedDeltaTime);
-    }
-
-    public void SetIsGround(bool isGround)
-    {
-        IsGrounded = isGround;
-    }
-
-    public float GetSpeed()
-    {
-        return _rb.linearVelocity.magnitude;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotateSpeed * Time.deltaTime);
     }
 
     public void SetDrag(float drag)
     {
-        _rb.linearDamping = drag;
     }
 
-    public Vector3 GetVelosity()
-    {        
-        return _rb.linearVelocity;
+    private void HandleGravity()
+    {
+        _verticalVelocity -= _gravity;
+        OnGravityCurrentChanged?.Invoke(_verticalVelocity);
+
+        if (GetIsGrounded())
+        {
+            if (_verticalVelocity < 0f)
+            {
+                _verticalVelocity = -_gravity;
+            }
+        }
     }
-
-    //public void CheckDrag(float groundDragStay, float groundDragMovment)
-    //{
-    //    if (IsGrounded && _isMovement)
-    //    {
-    //        _rb.linearDamping = groundDragMovment;
-    //    }
-    //    else if (IsGrounded && _isMovement == false)
-    //    {
-    //        _rb.linearDamping = groundDragStay;
-    //    }
-    //    else
-    //    {
-    //        _rb.linearDamping = 0;
-    //    }
-    //}
-
-    //private void CheckRigidbodyMovement()
-    //{
-    //Debug.Log($"_rb.velocity:{_rb.linearVelocity}");
-    //Debug.Log($"_rb.velocity:{_rb.linearVelocity.y}");
-    //Debug.Log($"_rb.velocity:{_rb.linearVelocity.x}");
-
-    //if(_moveDirection.magnitude > 0 && _rb.linearVelocity.magnitude > 0)
-    //{
-    //    Debug.Log("NOT Static");
-    //    OnMovment?.Invoke(false);
-    //}
-    //else
-    //{
-    //    Debug.Log("Move");
-    //    OnMovment?.Invoke(true);
-    //}
-
-    //}
-
-    //private void SpeedControl()
-    //{
-    //    Vector3 flatVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
-
-    //    if(flatVel.magnitude > _speed)
-    //    {
-    //        Vector3 limitedVel = flatVel.normalized * _speed;
-    //        _rb.linearVelocity = new Vector3(limitedVel.x, _rb.linearVelocity.y, limitedVel.z);
-    //    }
-    //}
-
-    //private void ApplyBetterGravity()
-    //{
-    //    //Debug.Log($"_rb.linearVelocity.y: {_rb.linearVelocity.y}");
-
-    //    if (_rb.linearVelocity.y < 0)
-    //    {
-    //        _rb.linearVelocity += Vector3.up * Physics.gravity.y * (_fallMultiplier - 1) * Time.deltaTime;
-    //        //OnGravity?.Invoke(true);
-    //    }
-    //    else if (_rb.linearVelocity.y > 0)
-    //    {
-    //        _rb.linearVelocity += Vector3.up * Physics.gravity.y * (_lowJumpMultiplier - 1) * Time.deltaTime;
-    //        //OnGravity?.Invoke(false);
-    //    }
-    //}
 }

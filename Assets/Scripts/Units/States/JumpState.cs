@@ -10,6 +10,8 @@ namespace Assets.Scripts.Units.States
         private bool _isJumping;
         private float _deleySetNextState = 0.1f;
         private float _currentDeley = 0.1f;
+        private float _gravity = 0f;
+        private float _initialJumpVelocity;
 
         public JumpState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
@@ -20,8 +22,9 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
-            _unit.PlayerView.SetDrag(_unit.Settings.DragJump);
-            _unit.PlayerView.SetMoveDirection(Vector3.zero);
+            SetupJumpVaraibles();
+            _unit.PlayerView.Jump(_initialJumpVelocity);
+            //_unit.PlayerView.SetGravity(_gravity);
             _currentDeley = _deleySetNextState;
             _isJumping = false;
             _unit.AnimatorPersonController.SetJump(true);
@@ -29,22 +32,12 @@ namespace Assets.Scripts.Units.States
 
         public void Exit()
         {
+            _unit.PlayerView.Jump(0f);
             _unit.AnimatorPersonController.SetJump(false);
         }
 
         public void FixedUpdate()
         {
-            if (_isJumping == false) 
-            {
-                _unit.PlayerView.Jump(_unit.Settings.JumpForce);
-                _isJumping = true;
-            }
-            else
-            {
-                _unit.PlayerView.Move(_unit.Settings.JumpSpeedMove, _unit.Settings.RotateSpeed);
-            }
-
-
         }
 
         public void UpdateState()
@@ -57,23 +50,27 @@ namespace Assets.Scripts.Units.States
         {
             if(_currentDeley < 0)
             {
-                if (_unit.SignalReader.IsMove == true && _unit.PlayerView.IsGrounded)
+                if (_unit.SignalReader.IsMove == true && _unit.PlayerView.GetIsGrounded())
                 {
                     _playerStateMachine.SelectState(UnitStateType.Run);
                 }
-                else if (_unit.SignalReader.IsMove == false && _unit.PlayerView.IsGrounded)
+                else if (_unit.SignalReader.IsMove == false && _unit.PlayerView.GetIsGrounded())
                 {
                     _playerStateMachine.SelectState(UnitStateType.Stay);
                 }
-                else if(_unit.PlayerView.GetVelosity().y < 0 && _unit.PlayerView.IsGrounded == false)
+                else if(_unit.PlayerView.GetIsGrounded() == false)
                 {
                     _playerStateMachine.SelectState(UnitStateType.Fall);
                 }
             }
-            
-            
         }
 
-
+        private void SetupJumpVaraibles()
+        {
+            float timeToApex = _unit.Settings.MaxJumpTime / 2;
+            _gravity = (2 * _unit.Settings.MaxJumpHeight) / Mathf.Pow(timeToApex, 2);
+            _initialJumpVelocity = (2 * _unit.Settings.MaxJumpHeight) / timeToApex;
+            //_initialJumpVelocity = Mathf.Sqrt(_unit.Settings.MaxJumpHeight * 2f * _gravity);
+        }
     }
 }

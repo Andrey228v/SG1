@@ -16,7 +16,8 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
-            _unit.PlayerView.SetDrag(_unit.Settings.DragFall);
+            //_unit.PlayerView.SetDrag(_unit.Settings.DragFall);
+            _unit.PlayerView.SetGravity(_unit.Settings.Gravity);
             _unit.AnimatorPersonController.SetFall(true);
         }
 
@@ -27,7 +28,7 @@ namespace Assets.Scripts.Units.States
 
         public void FixedUpdate()
         {
-            _unit.PlayerView.Move(_unit.Settings.JumpSpeedMove, _unit.Settings.RotateSpeed);
+            //_unit.PlayerView.Move(_unit.Settings.JumpSpeedMove, _unit.Settings.RotateSpeed);
         }
 
         public void UpdateState()
@@ -37,7 +38,7 @@ namespace Assets.Scripts.Units.States
 
         public void CheckSwitchStates()
         {
-            if (_unit.PlayerView.IsGrounded == true)
+            if (_unit.PlayerView.GetIsGrounded() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
