@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.DetectorProperties;
+using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
 using Assets.Scripts.PlayerSettings;
 using Assets.Scripts.StateMachineUnit;
 using UnityEngine;
@@ -7,13 +8,11 @@ namespace Assets.Scripts.Units
 {
     [RequireComponent(typeof(PlayerView), typeof(AnimatorPersonController))]
     [RequireComponent(typeof(PlayerStateMachine), typeof(SignalReader))]
-    [RequireComponent(typeof(GravityChecker))]
     public class Unit : MonoBehaviour
     {
         [field: SerializeField] public UnitSetting Settings { get; private set; }
         public PlayerView PlayerView { get; private set; }
         public AnimatorPersonController AnimatorPersonController { get; private set; }
-        public GravityChecker GravityChecker { get; private set; }
         public PlayerStateMachine PlayerStateMachine { get; private set; }
         public SignalReader SignalReader { get; private set; }
         public DragChecker DragChecker { get; private set; }
@@ -22,15 +21,33 @@ namespace Assets.Scripts.Units
         {
             PlayerView = GetComponent<PlayerView>();
             AnimatorPersonController = GetComponent<AnimatorPersonController>();
-            GravityChecker = GetComponent<GravityChecker>();
             PlayerStateMachine = GetComponent<PlayerStateMachine>();
             SignalReader = GetComponent<SignalReader>();
+        }
+
+        private void OnEnable()
+        {
+            Settings.AGroundChecker.OnGround += PlayerView.SetIsGround;
+        }
+
+        private void Update()
+        {
+            Settings.AGroundChecker.CheckGround(transform);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Settings.AGroundChecker.OnDrawGizmos(transform);
+        }
+
+        private void OnDisable()
+        {
+            Settings.AGroundChecker.OnGround -= PlayerView.SetIsGround;
         }
 
         public void ProcessSignalDirection(Vector3 direction)
         {
             //Vector3 normal = Settings.AGroundChecker.GetGroundNormal();
-            //Vector3 normal = 
             //direction = Vector3.ProjectOnPlane(direction, normal).normalized;
             PlayerView.SetMoveDirection(direction);
         }

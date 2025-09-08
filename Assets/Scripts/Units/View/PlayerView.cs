@@ -1,7 +1,9 @@
 using Assets.Scripts;
+using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 //[RequireComponent(typeof(Rigidbody))]
 public class PlayerView : MonoBehaviour
@@ -13,21 +15,26 @@ public class PlayerView : MonoBehaviour
     private Vector3 _moveDirection = Vector3.zero;
     private float _rotateSpeed = 500f;
 
+    private bool _isGround;
     private bool _isEventCheckMovmentSent = false;
     private float _jumpForce = 0;
     private float _speed = 0;
     private float _gravity = 0;
     private float _verticalVelocity = 0;
+    private bool _isFall;
+    private Vector3 _currentMovment;
 
     public event Action<bool> OnMovment;
     public event Action<bool> OnGravity;
 
+    public event Action<Vector3> OnDirectionChanged;
     public event Action<float> OnGravityAmountChanged;
     public event Action<float> OnGravityCurrentChanged;
     public event Action<float> OnJumpAmountChanged;
     public event Action<float> OnSpeedChanged;
     public event Action<Vector3> OnForceChanged;
     public event Action<bool> OnIsGround;
+    public event Action<bool> OnIsFall;
 
     //public bool IsGrounded { get; private set; }
 
@@ -41,25 +48,37 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        //SetGravity(1f, 10f);
-        UpdatePosititon();
-        HandleGravity();
-
         if (_moveDirection.magnitude > 0)
         {
             Rotate(_moveDirection, _rotateSpeed);
             _isMovement = true;
         }
+
+        UpdatePosititon();
+        
+        OnForceChanged?.Invoke(_currentMovment);
+        _characterController.Move(_currentMovment * Time.deltaTime);
+
+        HandleGravity();
+        //HandleJump();
     }
 
     public void UpdatePosititon()
     {
-        Vector3 position = new Vector3(_moveDirection.x * _speed, _verticalVelocity, _moveDirection.z * _speed);
-        _characterController.Move(position * Time.deltaTime);
+        //Vector3 position = new Vector3(_moveDirection.x * _speed, _moveDirection.y * _speed, _moveDirection.z * _speed);
+        //position = position * Time.deltaTime;
 
-        OnSpeedChanged?.Invoke(Mathf.Sqrt(Mathf.Pow(position.x,2) + Mathf.Pow(position.z,2)));
-        OnForceChanged?.Invoke(position);
-        Debug.DrawRay(transform.position, position, Color.red, 1f);
+        //Vector3 postionGravity = new Vector3(position.x, position.y + _verticalVelocity, position.z);
+        //_moveDirection.y * _speed + _verticalVelocity
+        //_currentMovment = new Vector3(_moveDirection.x * _speed, _moveDirection.y * _speed, _moveDirection.z * _speed);
+
+        _currentMovment.x = _moveDirection.x * _speed;
+        _currentMovment.y = _verticalVelocity;
+        _currentMovment.z = _moveDirection.z * _speed;
+
+        OnSpeedChanged?.Invoke(Mathf.Sqrt(Mathf.Pow(_currentMovment.x,2) + Mathf.Pow(_currentMovment.z,2)));
+        
+        Debug.DrawRay(transform.position, _currentMovment, Color.red, 1f);
     }
 
     public void Move(float speed)
@@ -69,9 +88,14 @@ public class PlayerView : MonoBehaviour
 
     public bool GetIsGrounded()
     {
-        bool isGround = _characterController.isGrounded;
-        OnIsGround?.Invoke(isGround);
-        return isGround;
+        _isGround = _characterController.isGrounded;
+        OnIsGround?.Invoke(_isGround);
+        return _isGround;
+    }
+
+    public void SetIsGround(bool isGround)
+    {
+        //_isGround = isGround;
     }
 
     public void Jump(float jumpForce)
@@ -82,6 +106,7 @@ public class PlayerView : MonoBehaviour
 
     public void SetMoveDirection(Vector3 direction)
     {
+        OnDirectionChanged?.Invoke(direction);
         _moveDirection = direction;
     }
 
@@ -93,27 +118,54 @@ public class PlayerView : MonoBehaviour
 
     public void Rotate(Vector3 direction, float rotateSpeed)
     {
-        Debug.DrawRay(transform.position, direction * 5f, Color.white, 1f);
+        Debug.DrawRay(transform.position, direction * 3f, Color.white, 1f);
         Quaternion targetRotation = Quaternion.LookRotation(direction);
         Quaternion q = new Quaternion(0f, targetRotation.y, 0f, targetRotation.w);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotateSpeed * Time.deltaTime);
     }
 
-    public void SetDrag(float drag)
+    private void HandleJump()
     {
+        //_verticalVelocity = _jumpForce;
     }
 
     private void HandleGravity()
     {
-        _verticalVelocity -= _gravity;
-        OnGravityCurrentChanged?.Invoke(_verticalVelocity);
 
         if (GetIsGrounded())
         {
-            if (_verticalVelocity < 0f)
-            {
-                _verticalVelocity = -_gravity;
-            }
+            _verticalVelocity = _gravity; // тут надо исправить.
         }
+        else
+        {
+            _verticalVelocity += _gravity * Time.deltaTime;
+        }
+
+
+        if (_verticalVelocity < 0f && GetIsGrounded() == false)
+        {
+            _isFall = true;
+        }
+        else
+        {
+            _isFall = false;
+        }
+
+        OnIsFall?.Invoke(_isFall);
+
+        //if (GetIsGrounded())
+        //{
+        //    if (_verticalVelocity < 0f)
+        //    {
+        //        _verticalVelocity = -_gravity;
+        //    }
+        //}
+
+        OnGravityCurrentChanged?.Invoke(_verticalVelocity);
+    }
+
+    public bool GetIsFall()
+    {
+        return _isFall;
     }
 }
