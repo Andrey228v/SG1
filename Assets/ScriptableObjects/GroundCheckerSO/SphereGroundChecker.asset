@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb166a349a4085b43b9b8aeed10e9a21, type: 3}
   m_Name: SphereGroundChecker
   m_EditorClassIdentifier: 
-  _sphereRadius: 0.9
-  _castDistance: 2.03
-  _groundCheckOffset: -2.05
+  _sphereRadius: 1.35
+  _castDistance: 2.07
+  _groundCheckOffset: -2.31
   _castOffset: {x: 1, y: 0.1, z: 1}
   _showDebugGizmos: 1
   _gizmoColor: {r: 0, g: 1, b: 0, a: 1}

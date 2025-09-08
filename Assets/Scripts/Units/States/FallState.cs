@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.StateMachineUnit;
+using UnityEngine;
 
 namespace Assets.Scripts.Units.States
 {
@@ -6,6 +7,8 @@ namespace Assets.Scripts.Units.States
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
+        private float _gravity;
+        private float _currentGravity;
 
         public FallState(PlayerStateMachine playerStateMachine, Unit unit)
         {
@@ -17,12 +20,16 @@ namespace Assets.Scripts.Units.States
         public void Enter()
         {
             //_unit.PlayerView.SetDrag(_unit.Settings.DragFall);
-            _unit.PlayerView.SetGravity(_unit.Settings.Gravity);
+            //_unit.PlayerView.SetGravity(_unit.Settings.Gravity);
+            _gravity = _unit.Settings.Gravity;
+            _currentGravity = _gravity;
+
             _unit.AnimatorPersonController.SetFall(true);
         }
 
         public void Exit()
         {
+            //_unit.PlayerView.Jump(0f);
             _unit.AnimatorPersonController.SetFall(false);
         }
 
@@ -33,6 +40,10 @@ namespace Assets.Scripts.Units.States
 
         public void UpdateState()
         {
+            //_currentGravity = _gravity - (_currentGravity - (_gravity * Time.deltaTime));
+            _currentGravity += _gravity;
+            _unit.PlayerView.SetGravity(_currentGravity);
+
             CheckSwitchStates();
         }
 

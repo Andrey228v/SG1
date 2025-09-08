@@ -10,6 +10,9 @@ namespace Assets.Scripts.Debugs
         [SerializeField] private Unit _unit;
         [SerializeField] private PlayerStateMachine _playerStateMachine;
         [SerializeField] private PlayerView _playerView;
+        [SerializeField] private TextMeshProUGUI _textUnitDirX;
+        [SerializeField] private TextMeshProUGUI _textUnitDirY;
+        [SerializeField] private TextMeshProUGUI _textUnitDirZ;
         [SerializeField] private TextMeshProUGUI _textUnitState;
         [SerializeField] private TextMeshProUGUI _textUnitGravity;
         [SerializeField] private TextMeshProUGUI _textVerticalVelocity;
@@ -19,9 +22,11 @@ namespace Assets.Scripts.Debugs
         [SerializeField] private TextMeshProUGUI _textUnitForceY;
         [SerializeField] private TextMeshProUGUI _textUnitForceZ;
         [SerializeField] private TextMeshProUGUI _textUnitIsGround;
+        [SerializeField] private TextMeshProUGUI _textUnitIsFall;
 
         private void OnEnable()
         {
+            _playerView.OnDirectionChanged += SetDirection;
             _playerStateMachine.OnChangedState += SetTextUnitState;
             _playerView.OnGravityAmountChanged += SetGravityAmount;
             _playerView.OnGravityCurrentChanged += SetVerticalVelocity;
@@ -29,10 +34,13 @@ namespace Assets.Scripts.Debugs
             _playerView.OnSpeedChanged += SetSpeed;
             _playerView.OnForceChanged += SetForce;
             _playerView.OnIsGround += SetIsGround;
+            _playerView.OnIsFall += SetIsFall;  
+            
         }
 
         private void OnDisable()
         {
+            _playerView.OnDirectionChanged -= SetDirection;
             _playerStateMachine.OnChangedState -= SetTextUnitState;
             _playerView.OnGravityAmountChanged -= SetGravityAmount;
             _playerView.OnGravityCurrentChanged -= SetVerticalVelocity;
@@ -40,6 +48,7 @@ namespace Assets.Scripts.Debugs
             _playerView.OnSpeedChanged -= SetSpeed;
             _playerView.OnForceChanged -= SetForce;
             _playerView.OnIsGround -= SetIsGround;
+            _playerView.OnIsFall -= SetIsFall;
         }
 
         private void SetTextUnitState(string state)
@@ -80,6 +89,18 @@ namespace Assets.Scripts.Debugs
         {
             gravity = Mathf.Round(gravity * 100f) / 100f;
             _textVerticalVelocity.text = gravity.ToString();
+        }
+
+        private void SetDirection(Vector3 direction) 
+        {
+            _textUnitDirX.text = (Mathf.Round(direction.x * 100f) / 100f).ToString();
+            _textUnitDirY.text = (Mathf.Round(direction.y * 100f) / 100f).ToString();
+            _textUnitDirZ.text = (Mathf.Round(direction.z * 100f) / 100f).ToString();
+        }
+
+        private void SetIsFall(bool isFall)
+        {
+            _textUnitIsFall.text = isFall.ToString();
         }
     }
 }
