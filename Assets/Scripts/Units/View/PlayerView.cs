@@ -8,21 +8,18 @@ using UnityEngine.UIElements;
 //[RequireComponent(typeof(Rigidbody))]
 public class PlayerView : MonoBehaviour
 {
-    //private Rigidbody _rb;
     private CharacterController _characterController;
 
-    private bool _isMovement;
     private Vector3 _moveDirection = Vector3.zero;
-    private float _rotateSpeed = 500f;
+    private float _rotateSpeed;
 
     private bool _isGround;
-    private bool _isEventCheckMovmentSent = false;
-    private float _jumpForce = 0;
-    private float _speed = 0;
-    private float _gravity = 0;
-    private float _verticalVelocity = 0;
+    private float _speed;
+    private float _gravity;
+    private float _verticalVelocity;
     private bool _isFall;
     private Vector3 _currentMovment;
+    private bool _isJumping;
 
     public event Action<bool> OnMovment;
     public event Action<bool> OnGravity;
@@ -36,14 +33,14 @@ public class PlayerView : MonoBehaviour
     public event Action<bool> OnIsGround;
     public event Action<bool> OnIsFall;
 
-    //public bool IsGrounded { get; private set; }
-
     private void Awake()
     {
-        //_rb = GetComponent<Rigidbody>();
-        //_rb.freezeRotation = true;
         _characterController = GetComponent<CharacterController>();
-        //IsGrounded = true;
+    }
+
+    private void Start()
+    {
+        _isJumping = false;
     }
 
     private void Update()
@@ -51,7 +48,6 @@ public class PlayerView : MonoBehaviour
         if (_moveDirection.magnitude > 0)
         {
             Rotate(_moveDirection, _rotateSpeed);
-            _isMovement = true;
         }
 
         UpdatePosititon();
@@ -60,25 +56,15 @@ public class PlayerView : MonoBehaviour
         _characterController.Move(_currentMovment * Time.deltaTime);
 
         HandleGravity();
-        //HandleJump();
     }
 
     public void UpdatePosititon()
     {
-        //Vector3 position = new Vector3(_moveDirection.x * _speed, _moveDirection.y * _speed, _moveDirection.z * _speed);
-        //position = position * Time.deltaTime;
-
-        //Vector3 postionGravity = new Vector3(position.x, position.y + _verticalVelocity, position.z);
-        //_moveDirection.y * _speed + _verticalVelocity
-        //_currentMovment = new Vector3(_moveDirection.x * _speed, _moveDirection.y * _speed, _moveDirection.z * _speed);
-
         _currentMovment.x = _moveDirection.x * _speed;
         _currentMovment.y = _verticalVelocity;
         _currentMovment.z = _moveDirection.z * _speed;
 
         OnSpeedChanged?.Invoke(Mathf.Sqrt(Mathf.Pow(_currentMovment.x,2) + Mathf.Pow(_currentMovment.z,2)));
-        
-        Debug.DrawRay(transform.position, _currentMovment, Color.red, 1f);
     }
 
     public void Move(float speed)
@@ -124,17 +110,16 @@ public class PlayerView : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotateSpeed * Time.deltaTime);
     }
 
-    private void HandleJump()
+    public void SetRotate(float rotateSpeed)
     {
-        //_verticalVelocity = _jumpForce;
+        _rotateSpeed = rotateSpeed;
     }
 
     private void HandleGravity()
     {
-
         if (GetIsGrounded())
         {
-            _verticalVelocity = _gravity; // тут надо исправить.
+            _verticalVelocity = _gravity;
         }
         else
         {
@@ -152,14 +137,6 @@ public class PlayerView : MonoBehaviour
         }
 
         OnIsFall?.Invoke(_isFall);
-
-        //if (GetIsGrounded())
-        //{
-        //    if (_verticalVelocity < 0f)
-        //    {
-        //        _verticalVelocity = -_gravity;
-        //    }
-        //}
 
         OnGravityCurrentChanged?.Invoke(_verticalVelocity);
     }

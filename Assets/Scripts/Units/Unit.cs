@@ -2,6 +2,7 @@
 using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
 using Assets.Scripts.PlayerSettings;
 using Assets.Scripts.StateMachineUnit;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Units
@@ -17,12 +18,19 @@ namespace Assets.Scripts.Units
         public SignalReader SignalReader { get; private set; }
         public DragChecker DragChecker { get; private set; }
 
+        public event Action<bool> OnJumpButtonDown;
+
         public void Awake()
         {
             PlayerView = GetComponent<PlayerView>();
             AnimatorPersonController = GetComponent<AnimatorPersonController>();
             PlayerStateMachine = GetComponent<PlayerStateMachine>();
             SignalReader = GetComponent<SignalReader>();
+        }
+
+        private void Start()
+        {
+            PlayerView.SetRotate(Settings.RotateSpeed);
         }
 
         private void OnEnable()
@@ -72,5 +80,10 @@ namespace Assets.Scripts.Units
             SignalReader.SetIsJump(false);
         }
 
+        public void ProcessSignalJumpButtonDown(bool isDown)
+        {
+            SignalReader.SetIsJumpButtonDown(isDown);
+            OnJumpButtonDown?.Invoke(isDown);
+        }
     }
 }

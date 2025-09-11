@@ -4,13 +4,10 @@ public class RotateAround : MonoBehaviour
 {
     [SerializeField] private Transform _center;
 
-    private float _radius;
-
     private void Update()
     {
         Rotate();
     }
-
 
     private void Rotate()
     {
@@ -25,15 +22,4 @@ public class RotateAround : MonoBehaviour
         Debug.DrawRay(_center.position, -_center.right * 5f, Color.red);
         Debug.DrawRay(_center.position, _center.forward, Color.blue);
     }
-
-    private Vector3 MoveAround()
-    {
-        float x = _center.position.x;
-        float y = _center.position.y;
-        float z = _center.position.z;
-
-        return new Vector3(x, y, z);
-
-    }
-
 }
