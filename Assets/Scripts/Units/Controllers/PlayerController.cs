@@ -28,6 +28,7 @@ namespace Assets.Scripts
             _inputReader.OnStoped += _unit.SetProcessSignalStop;
             _inputReader.OnJumped += _unit.ProcessSignalJump;
             _inputReader.OnJumpedCanceled += _unit.ProcessSignalJumpStope;
+            _inputReader.OnJumpButtonDown += _unit.ProcessSignalJumpButtonDown;
 
         }
 
@@ -39,7 +40,7 @@ namespace Assets.Scripts
             _inputReader.OnStoped -= _unit.SetProcessSignalStop;
             _inputReader.OnJumped -= _unit.ProcessSignalJump;
             _inputReader.OnJumpedCanceled -= _unit.ProcessSignalJumpStope;
-
+            _inputReader.OnJumpButtonDown -= _unit.ProcessSignalJumpButtonDown;
         }
     }
 }

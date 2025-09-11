@@ -8,8 +8,6 @@ namespace Assets.Scripts.StateMachineUnit
 {
     public class PlayerStateMachine : MonoBehaviour
     {
-        //[field: SerializeField] public UnitSetting Settings { get; private set; }
-
         private Unit _unit;
         private StayState _stayState;
         private RunState _runState;
@@ -30,7 +28,6 @@ namespace Assets.Scripts.StateMachineUnit
             _fallState = new FallState(this, _unit);
         }
 
-
         private void Start()
         {
             CurrentState = _stayState;
@@ -49,17 +46,9 @@ namespace Assets.Scripts.StateMachineUnit
 
         private void ChangeState(IStateUnit newState)
         {
-
             CurrentState?.Exit();
             CurrentState = newState;
             CurrentState?.Enter();
-
-            //if(newState != CurrentState)
-            //{
-            //    CurrentState?.Exit();
-            //    CurrentState = newState;
-            //    CurrentState?.Enter();
-            //}
         }
 
         public void SelectState(UnitStateType stateType)
@@ -67,25 +56,21 @@ namespace Assets.Scripts.StateMachineUnit
             switch (stateType)
             {
                 case UnitStateType.Stay:
-                    Debug.Log("STAY STATE");
                     ChangeState(_stayState);
                     OnChangedState?.Invoke(UnitStateType.Stay.ToString());
                     break;
 
                 case UnitStateType.Run:
-                    Debug.Log("Ran STATE");
                     ChangeState(_runState);
                     OnChangedState?.Invoke(UnitStateType.Run.ToString());
                     break;
 
                 case UnitStateType.Jump:
-                    Debug.Log("Jump STATE");
                     ChangeState(_jumpState);
                     OnChangedState?.Invoke(UnitStateType.Jump.ToString());
                     break;
 
                 case UnitStateType.Fall:
-                    Debug.Log("Fall");
                     ChangeState(_fallState);
                     OnChangedState?.Invoke(UnitStateType.Fall.ToString());
                     break;

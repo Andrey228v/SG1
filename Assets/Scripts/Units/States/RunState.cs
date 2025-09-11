@@ -39,7 +39,7 @@ namespace Assets.Scripts.StateMachineUnit
         
         public void CheckSwitchStates()
         {
-            if (_unit.SignalReader.IsJump == true)
+            if (_unit.SignalReader.GetIsJumpButtonDown() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }

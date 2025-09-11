@@ -23,6 +23,8 @@ namespace Assets.Scripts.Debugs
         [SerializeField] private TextMeshProUGUI _textUnitForceZ;
         [SerializeField] private TextMeshProUGUI _textUnitIsGround;
         [SerializeField] private TextMeshProUGUI _textUnitIsFall;
+        [SerializeField] private TextMeshProUGUI _textUnitIsJump;
+        [SerializeField] private TextMeshProUGUI _textUnitIsCanDoubleJump;
 
         private void OnEnable()
         {
@@ -34,8 +36,10 @@ namespace Assets.Scripts.Debugs
             _playerView.OnSpeedChanged += SetSpeed;
             _playerView.OnForceChanged += SetForce;
             _playerView.OnIsGround += SetIsGround;
-            _playerView.OnIsFall += SetIsFall;  
-            
+            _playerView.OnIsFall += SetIsFall;
+            _unit.OnJumpButtonDown += SetIsJumpButtonDown;
+
+
         }
 
         private void OnDisable()
@@ -49,6 +53,7 @@ namespace Assets.Scripts.Debugs
             _playerView.OnForceChanged -= SetForce;
             _playerView.OnIsGround -= SetIsGround;
             _playerView.OnIsFall -= SetIsFall;
+            _unit.OnJumpButtonDown -= SetIsJumpButtonDown;
         }
 
         private void SetTextUnitState(string state)
@@ -101,6 +106,11 @@ namespace Assets.Scripts.Debugs
         private void SetIsFall(bool isFall)
         {
             _textUnitIsFall.text = isFall.ToString();
+        }
+
+        private void SetIsJumpButtonDown(bool isJumpButtonDown) 
+        {
+            _textUnitIsCanDoubleJump.text = isJumpButtonDown.ToString();
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Assets.Scripts.Units.States
         public void Enter()
         {
             _unit.PlayerView.SetGravity(_unit.Settings.GravityGround);
-            //_unit.PlayerView.SetDrag(_unit.Settings.GroundDragStay);
             _unit.AnimatorPersonController.SetStatic(true);
         }
 
@@ -38,7 +37,7 @@ namespace Assets.Scripts.Units.States
 
         public void CheckSwitchStates()
         {
-            if(_unit.SignalReader.IsJump == true)
+            if(_unit.SignalReader.GetIsJumpButtonDown() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }
