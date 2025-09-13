@@ -8,10 +8,6 @@ using static PlayerInput;
 public class InputReader : ScriptableObject, IPlayerActions
 {
     private PlayerInput _playerInput;
-    private bool _onDownJump = false;
-    //public Vector3 DirectionMove => _playerInput.Player.Move.ReadValue<Vector2>();
-
-    //public Vector3 DirectionMove {  get; private set; }
 
     public event UnityAction<Vector2> OnDirectionMoveChandged;
     public event Action OnJumped;
@@ -65,43 +61,12 @@ public class InputReader : ScriptableObject, IPlayerActions
     {
         if (context.started)
         {
-            //OnJumped?.Invoke();
             OnJumpButtonDown?.Invoke(true);
         }
         else if (context.canceled)
         {
             OnJumpButtonDown?.Invoke(false);
         }
-
-
-        //if (context.started == true)
-        //{
-        //    OnJumped?.Invoke();
-        //    OnJumpButtonDown?.Invoke(true);
-
-
-            //    //if (context.ReadValueAsButton() == true)
-            //    //{
-            //    //    OnJumpButtonDown?.Invoke(true);
-            //    //}
-            //}
-            ////else if (context.performed)
-            ////{
-            ////    Debug.Log(context.ReadValueAsButton());
-            ////    OnJumpButtonDown?.Invoke(false);
-            ////    //OnJumpButtonDown?.Invoke(false);
-            ////    //if (context.ReadValueAsButton() == true)
-            ////    //{
-
-            ////    //}
-            ////}
-            //else if (context.canceled == true)
-            //{
-            //    Debug.Log(context.ReadValueAsButton());
-
-            //    OnJumpButtonDown?.Invoke(false);
-            //    OnJumpedCanceled?.Invoke();
-            //}
     }
 
     public void OnLook(InputAction.CallbackContext context)

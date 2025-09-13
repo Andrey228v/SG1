@@ -20,6 +20,7 @@ public class PlayerView : MonoBehaviour
     private bool _isFall;
     private Vector3 _currentMovment;
     private bool _isJumping;
+    private int _jumpCountCurrent = 0;
 
     public event Action<bool> OnMovment;
     public event Action<bool> OnGravity;
@@ -144,5 +145,20 @@ public class PlayerView : MonoBehaviour
     public bool GetIsFall()
     {
         return _isFall;
+    }
+
+    public int GetJumpCount()
+    {
+        return _jumpCountCurrent;
+    }
+
+    public void AddJumpCount()
+    {
+        _jumpCountCurrent++;
+    }
+
+    public void ResetJumpCount()
+    {
+        _jumpCountCurrent = 0;
     }
 }

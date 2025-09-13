@@ -38,6 +38,11 @@ namespace Assets.Scripts.Units.States
             if (_unit.PlayerView.GetIsGrounded() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Stay);
+                _unit.PlayerView.ResetJumpCount();
+            }
+            else if (_unit.SignalReader.GetIsJumpButtonDown() == true && _unit.PlayerView.GetJumpCount() < _unit.Settings.CountJump)
+            {
+                _playerStateMachine.SelectState(UnitStateType.Jump);
             }
         }
     }

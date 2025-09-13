@@ -7,26 +7,25 @@ namespace Assets.Scripts.Units.States
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
-        private bool _isJumping;
         private float _gravity = 0f;
         private float _currentGravity;
         private float _initialJumpVelocity;
         private float _currentTimeJump;
+        private float _cayoteTime;
+        private float _currentCayoteTime;
 
         public JumpState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
             _unit = unit;
             _playerStateMachine = playerStateMachine;
-            
+            _cayoteTime = _unit.Settings.CayoteTime;
+
+
         }
 
         public void Enter()
         {
-            SetupJumpVaraibles();
-            _unit.PlayerView.Jump(_initialJumpVelocity);
-            _unit.PlayerView.SetGravity(_gravity);
-            _unit.AnimatorPersonController.SetJump(true);
-            _isJumping = true;
+            Jump();
         }
 
         public void Exit()
@@ -57,21 +56,26 @@ namespace Assets.Scripts.Units.States
             }
             else if(_unit.PlayerView.GetIsGrounded() == false && _unit.PlayerView.GetIsFall())
             {
-                _playerStateMachine.SelectState(UnitStateType.Fall);
+                _currentCayoteTime += Time.deltaTime;
+
+                if (_cayoteTime < _currentCayoteTime)
+                {
+                    _playerStateMachine.SelectState(UnitStateType.Fall);
+                }
             }
-            else if (_unit.SignalReader.GetIsJumpButtonDown() == true)
+            else if (_unit.SignalReader.GetIsJumpButtonDown() == true && _unit.PlayerView.GetJumpCount() < _unit.Settings.CountJump )
             {
-                JumpDouble();
+                Jump();
             }
         }
 
-        private void JumpDouble()
+        private void Jump()
         {
+            _unit.PlayerView.AddJumpCount();
             SetupJumpVaraibles();
             _unit.PlayerView.Jump(_initialJumpVelocity);
             _unit.PlayerView.SetGravity(_gravity);
             _unit.AnimatorPersonController.SetJump(true);
-            _isJumping = false;
         }
 
         private void SetupJumpVaraibles()

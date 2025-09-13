@@ -28,40 +28,16 @@ namespace Assets.Scripts.Units
 
         public void SetIsJump(bool isJump)
         {
-            //Debug.Log($"isJump:{isJump}");
             IsJump = isJump;
         }
 
         public void SetIsJumpButtonDown(bool isJumpButtonDown)
         {
-
             IsJumpButtonDown = isJumpButtonDown;
-
-            //if (isJumpButtonDown && _isDown == false)
-            //{
-
-            //    IsJumpButtonDown = true;
-            //    //_isDown = true;
-            //}
-            ////else if (isJumpButtonDown && _isDown == true)
-            ////{
-            ////    IsJumpButtonDown = false;
-            ////}
-            //else if (isJumpButtonDown == false && _isDown == true)
-            //{
-            //    IsJumpButtonDown = false;
-            //    //_isDown = false;
-            //}
-            //else if (_isDown == true)
-            //{
-            //    IsJumpButtonDown = false;
-            //}
-
         }
 
         public bool GetIsJumpButtonDown()
         {
-            Debug.Log($"TEST: {IsJumpButtonDown}, {_isDown} ");
             if (IsJumpButtonDown && _isDown == false)
             {
                 _isDown = true;

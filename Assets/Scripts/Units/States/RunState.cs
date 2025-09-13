@@ -8,11 +8,15 @@ namespace Assets.Scripts.StateMachineUnit
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
+        private float _deleyFallTime;
+        private float _currentFallTime = 0f;
 
         public RunState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
+            _currentFallTime = 0f;
             _unit = unit;
             _playerStateMachine = playerStateMachine;
+            _deleyFallTime = _unit.Settings.DeleyTimeFall;
         }
 
         public void Enter()
@@ -50,7 +54,12 @@ namespace Assets.Scripts.StateMachineUnit
             }
             else if (_unit.PlayerView.GetIsGrounded() == false)
             {
-                _playerStateMachine.SelectState(UnitStateType.Fall);
+                _currentFallTime += Time.deltaTime;
+
+                if (_deleyFallTime < _currentFallTime)
+                {
+                    _playerStateMachine.SelectState(UnitStateType.Fall);
+                }
             }
         }
     }

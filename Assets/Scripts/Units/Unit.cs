@@ -55,8 +55,6 @@ namespace Assets.Scripts.Units
 
         public void ProcessSignalDirection(Vector3 direction)
         {
-            //Vector3 normal = Settings.AGroundChecker.GetGroundNormal();
-            //direction = Vector3.ProjectOnPlane(direction, normal).normalized;
             PlayerView.SetMoveDirection(direction);
         }
 
