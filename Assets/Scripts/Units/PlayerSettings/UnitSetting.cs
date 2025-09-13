@@ -15,10 +15,12 @@ namespace Assets.Scripts.PlayerSettings
         [SerializeField] private AGroundCheckerStrategy _aGroundChecker;
 
         [Header("Jump")]
-        [SerializeField] private float _jumpForce = 20;
-        [SerializeField] private float _jumpSpeedMove = 20;
+        [SerializeField] private float _deleyTimeFall = 0.5f; 
+        [SerializeField] private float _cayoteTime = 0.5f;
         [SerializeField] private float _maxJumpTime = 0.5f;
         [SerializeField] private float _maxJumpHeight = 10f;
+        [SerializeField] private int _countJump = 2;
+
 
         [Header("Drags")]
         [SerializeField] private float _groundDragMovement = 5;
@@ -40,10 +42,11 @@ namespace Assets.Scripts.PlayerSettings
         public float RunSpeed => _runSpeed;
         public float RotateSpeed => _rotateSpeed;
         public AGroundCheckerStrategy AGroundChecker => _aGroundChecker;
-        public float JumpForce => _jumpForce;
-        public float JumpSpeedMove => _jumpSpeedMove;
+        public float DeleyTimeFall => _deleyTimeFall;
+        public float CayoteTime => _cayoteTime;
         public float MaxJumpTime => _maxJumpTime;
         public float MaxJumpHeight => _maxJumpHeight;
+        public int CountJump => _countJump;
         public float GroundDragMovement => _groundDragMovement;
         public float GroundDragStay => _groundDragStay;
         public float DragJump => _dragJump;
