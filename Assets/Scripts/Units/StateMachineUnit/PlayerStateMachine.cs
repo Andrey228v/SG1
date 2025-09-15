@@ -56,21 +56,25 @@ namespace Assets.Scripts.StateMachineUnit
             switch (stateType)
             {
                 case UnitStateType.Stay:
+                    Debug.Log(UnitStateType.Stay.ToString());
                     ChangeState(_stayState);
                     OnChangedState?.Invoke(UnitStateType.Stay.ToString());
                     break;
 
                 case UnitStateType.Run:
+                    Debug.Log(UnitStateType.Run.ToString());
                     ChangeState(_runState);
                     OnChangedState?.Invoke(UnitStateType.Run.ToString());
                     break;
 
                 case UnitStateType.Jump:
+                    Debug.Log(UnitStateType.Jump.ToString());
                     ChangeState(_jumpState);
                     OnChangedState?.Invoke(UnitStateType.Jump.ToString());
                     break;
 
                 case UnitStateType.Fall:
+                    Debug.Log(UnitStateType.Fall.ToString());
                     ChangeState(_fallState);
                     OnChangedState?.Invoke(UnitStateType.Fall.ToString());
                     break;

@@ -8,17 +8,18 @@ namespace Assets.Scripts.Units
 
         public bool IsJump { get; private set; }
 
-        public bool IsJumpButtonDown {  get; private set; }
+        public bool IsJumpButtonDownClicked {  get; private set; }
 
-        public bool IsJumpButtonUp { get; private set; }
+        public bool IsJumpButtonUpClicked { get; private set; }
 
         private bool _isDown = false;
+        private bool _isUp = true;
 
         private void Start()
         {
             IsMove = false;
             IsJump = false;
-            IsJumpButtonDown = false;
+            IsJumpButtonDownClicked = false;
         }
 
         public void SetIsMove(bool isMove)
@@ -33,17 +34,17 @@ namespace Assets.Scripts.Units
 
         public void SetIsJumpButtonDown(bool isJumpButtonDown)
         {
-            IsJumpButtonDown = isJumpButtonDown;
+            IsJumpButtonDownClicked = isJumpButtonDown;
         }
 
         public bool GetIsJumpButtonDown()
         {
-            if (IsJumpButtonDown && _isDown == false)
+            if (IsJumpButtonDownClicked && _isDown == false)
             {
                 _isDown = true;
-                IsJumpButtonDown = false;
+                IsJumpButtonDownClicked = false;
             }
-            else if(IsJumpButtonDown == false)
+            else if(IsJumpButtonDownClicked == false)
             {
                 _isDown = false;
             }
@@ -53,7 +54,23 @@ namespace Assets.Scripts.Units
 
         public void SetIsJumpButtonUp(bool isJumpButtonUp) 
         {
+            IsJumpButtonUpClicked = isJumpButtonUp;
+        }
 
+        public bool GetIsJumpButtonUp()
+        {
+            if(IsJumpButtonUpClicked && _isUp == true)
+            {
+                _isUp = false;
+                IsJumpButtonUpClicked = false;
+            }
+            else if(IsJumpButtonUpClicked == false)
+            {
+                _isUp = true;
+
+            }
+
+                return _isUp;
         }
 
     }

@@ -12,6 +12,7 @@ public class InputReader : ScriptableObject, IPlayerActions
     public event UnityAction<Vector2> OnDirectionMoveChandged;
     public event Action OnJumped;
     public event Action<bool> OnJumpButtonDown;
+    public event Action<bool> OnJumpButtonUp;
     public event Action OnJumpedCanceled;
     public event Action OnMoved;
     public event Action OnStoped;
@@ -27,6 +28,7 @@ public class InputReader : ScriptableObject, IPlayerActions
             _playerInput = new PlayerInput();
             _playerInput.Player.SetCallbacks(this);
             OnJumpButtonDown?.Invoke(true);
+            OnJumpButtonUp?.Invoke(true);
         }
 
         _playerInput.Enable();
@@ -62,15 +64,18 @@ public class InputReader : ScriptableObject, IPlayerActions
         if (context.started)
         {
             OnJumpButtonDown?.Invoke(true);
+            OnJumpButtonUp?.Invoke(false);
         }
         else if (context.canceled)
         {
             OnJumpButtonDown?.Invoke(false);
+            OnJumpButtonUp?.Invoke(true);
         }
     }
 
     public void OnLook(InputAction.CallbackContext context)
     {
+        //Debug.Log(context.ReadValue<Vector2>());
         OnLooked?.Invoke(context.ReadValue<Vector2>(), IsUseMouse(context));
     }
 
