@@ -8,20 +8,15 @@ namespace Assets.Scripts.StateMachineUnit
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
-        private float _deleyFallTime;
-        private float _currentFallTime = 0f;
 
         public RunState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
-            _currentFallTime = 0f;
             _unit = unit;
             _playerStateMachine = playerStateMachine;
-            _deleyFallTime = _unit.Settings.DeleyTimeFall;
         }
 
         public void Enter()
         {
-            _unit.PlayerView.SetGravity(_unit.Settings.GravityGround);
             _unit.AnimatorPersonController.SetMove(true);
         }
 
@@ -32,13 +27,12 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void FixedUpdate()
         {
-            
+            CheckSwitchStates();
         }
 
         public void UpdateState()
         {
-            _unit.PlayerView.Move(_unit.Settings.RunSpeed);
-            CheckSwitchStates();
+            
         }
         
         public void CheckSwitchStates()
@@ -52,14 +46,10 @@ namespace Assets.Scripts.StateMachineUnit
                 _unit.AnimatorPersonController.SetMove(false);
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
-            else if (_unit.PlayerView.GetIsGrounded() == false)
+            else if (_unit.PlayerView.CharacterView.IsFalling())
             {
-                _currentFallTime += Time.deltaTime;
-
-                if (_deleyFallTime < _currentFallTime)
-                {
-                    _playerStateMachine.SelectState(UnitStateType.Fall);
-                }
+                //_unit.PlayerView.GetIsGrounded() == false
+                _playerStateMachine.SelectState(UnitStateType.Fall);
             }
         }
     }

@@ -29,7 +29,7 @@ namespace Assets.Scripts
             _inputReader.OnJumped += _unit.ProcessSignalJump;
             _inputReader.OnJumpedCanceled += _unit.ProcessSignalJumpStope;
             _inputReader.OnJumpButtonDown += _unit.ProcessSignalJumpButtonDown;
-
+            _inputReader.OnJumpButtonUp += _unit.ProcessSignalJumpButtonUp;
         }
 
         private void OnDisable()
@@ -41,6 +41,7 @@ namespace Assets.Scripts
             _inputReader.OnJumped -= _unit.ProcessSignalJump;
             _inputReader.OnJumpedCanceled -= _unit.ProcessSignalJumpStope;
             _inputReader.OnJumpButtonDown -= _unit.ProcessSignalJumpButtonDown;
+            _inputReader.OnJumpButtonUp -= _unit.ProcessSignalJumpButtonUp;
         }
     }
 }

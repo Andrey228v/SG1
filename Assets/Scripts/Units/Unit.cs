@@ -1,5 +1,4 @@
 ﻿using Assets.Scripts.DetectorProperties;
-using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
 using Assets.Scripts.PlayerSettings;
 using Assets.Scripts.StateMachineUnit;
 using System;
@@ -19,6 +18,7 @@ namespace Assets.Scripts.Units
         public DragChecker DragChecker { get; private set; }
 
         public event Action<bool> OnJumpButtonDown;
+        public event Action<bool> OnJumpButtonUp;
 
         public void Awake()
         {
@@ -26,31 +26,6 @@ namespace Assets.Scripts.Units
             AnimatorPersonController = GetComponent<AnimatorPersonController>();
             PlayerStateMachine = GetComponent<PlayerStateMachine>();
             SignalReader = GetComponent<SignalReader>();
-        }
-
-        private void Start()
-        {
-            PlayerView.SetRotate(Settings.RotateSpeed);
-        }
-
-        private void OnEnable()
-        {
-            Settings.AGroundChecker.OnGround += PlayerView.SetIsGround;
-        }
-
-        private void Update()
-        {
-            Settings.AGroundChecker.CheckGround(transform);
-        }
-
-        private void OnDrawGizmos()
-        {
-            Settings.AGroundChecker.OnDrawGizmos(transform);
-        }
-
-        private void OnDisable()
-        {
-            Settings.AGroundChecker.OnGround -= PlayerView.SetIsGround;
         }
 
         public void ProcessSignalDirection(Vector3 direction)
@@ -82,6 +57,12 @@ namespace Assets.Scripts.Units
         {
             SignalReader.SetIsJumpButtonDown(isDown);
             OnJumpButtonDown?.Invoke(isDown);
+        }
+
+        public void ProcessSignalJumpButtonUp(bool isUp)
+        {
+            SignalReader.SetIsJumpButtonUp(isUp);
+            OnJumpButtonUp?.Invoke(isUp);
         }
     }
 }

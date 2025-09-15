@@ -26,21 +26,27 @@ namespace Assets.Scripts.Units.States
 
         public void FixedUpdate()
         {
+            CheckSwitchStates();
         }
 
         public void UpdateState()
         {
-            CheckSwitchStates();
+            //if (_unit.SignalReader.GetIsJumpButtonUp())
+            //{
+            //    _unit.PlayerView.StopJump();
+            //}
+
+            //CheckSwitchStates();
         }
 
         public void CheckSwitchStates()
         {
-            if (_unit.PlayerView.GetIsGrounded() == true)
+            if (_unit.PlayerView.CharacterView.IsOnGround())
             {
                 _playerStateMachine.SelectState(UnitStateType.Stay);
-                _unit.PlayerView.ResetJumpCount();
+                //_unit.PlayerView.ResetJumpCount();
             }
-            else if (_unit.SignalReader.GetIsJumpButtonDown() == true && _unit.PlayerView.GetJumpCount() < _unit.Settings.CountJump)
+            else if (_unit.SignalReader.GetIsJumpButtonDown() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }
