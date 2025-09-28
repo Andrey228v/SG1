@@ -10,16 +10,10 @@ public class InputReader : ScriptableObject, IPlayerActions
     private PlayerInput _playerInput;
 
     public event UnityAction<Vector2> OnDirectionMoveChandged;
-    public event Action OnJumped;
     public event Action<bool> OnJumpButtonDown;
     public event Action<bool> OnJumpButtonUp;
-    public event Action OnJumpedCanceled;
     public event Action OnMoved;
     public event Action OnStoped;
-    public event UnityAction<Vector2> OnMoveStoped;
-    public event UnityAction<Vector2, bool> OnLooked;
-    public event UnityAction EnableMouseControlCamera;
-    public event UnityAction DisableMouseControlCamera;
 
     private void OnEnable()
     {
@@ -75,8 +69,7 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        //Debug.Log(context.ReadValue<Vector2>());
-        OnLooked?.Invoke(context.ReadValue<Vector2>(), IsUseMouse(context));
+        
     }
 
     public void OnMove(InputAction.CallbackContext context)

@@ -8,20 +8,9 @@ public class PlayerView : MonoBehaviour
 
     private Vector3 _moveDirection = Vector3.zero;
     private float _rotateSpeed;
-
-    private bool _isGround;
-    private float _gravity;
     private Vector3 _currentMovment;
-    private int _jumpCountCurrent = 0;
-
-    public event Action<bool> OnMovment;
-    public event Action<bool> OnGravity;
 
     public event Action<Vector3> OnDirectionChanged;
-    public event Action<float> OnGravityAmountChanged;
-    public event Action<float> OnGravityCurrentChanged;
-    public event Action<float> OnJumpAmountChanged;
-    public event Action<float> OnSpeedChanged;
     public event Action<Vector3> OnForceChanged;
     public event Action<bool> OnIsGround;
     public event Action<bool> OnIsFall;
@@ -52,14 +41,6 @@ public class PlayerView : MonoBehaviour
         CharacterView.SetMovementDirection(_moveDirection);
     }
 
-    public bool GetIsGrounded()
-    {
-        _isGround = CharacterView.IsGrounded();
-
-        OnIsGround?.Invoke(_isGround);
-        return _isGround;
-    }
-
     public void Jump()
     {
         OnIsJumping?.Invoke(true);
@@ -78,11 +59,6 @@ public class PlayerView : MonoBehaviour
         _moveDirection = direction;
     }
 
-    public void SetGravity(float gravity)
-    {
-        OnGravityAmountChanged?.Invoke(_gravity);
-    }
-
     private void HandleGravity()
     {
         OnIsFall?.Invoke(GetIsFall());
@@ -91,20 +67,5 @@ public class PlayerView : MonoBehaviour
     public bool GetIsFall()
     {
         return CharacterView.IsFalling() && CharacterView.velocity.y < 0;
-    }
-
-    public int GetJumpCount()
-    {
-        return _jumpCountCurrent;
-    }
-
-    public void AddJumpCount()
-    {
-        _jumpCountCurrent++;
-    }
-
-    public void ResetJumpCount()
-    {
-        _jumpCountCurrent = 0;
     }
 }

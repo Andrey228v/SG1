@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using Zenject;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,17 +11,17 @@ public class CameraController : MonoBehaviour
     private Vector3 _moveDirection;
     private Vector3 _adjustedDirection;
     private Transform _cameraTransorm;
+    private Transform _trackingTarget;
 
-    public event Action<Vector3> OnRoteted;
     public event Action<Vector3> OnDirectionChanged;
 
-    private void Awake()
+    public void Start()
     {
         _cameraTransorm = CameraCinemachine.transform;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void Update()
+    public void FixedUpdate()
     {
         _adjustedDirection = Quaternion.AngleAxis(_cameraTransorm.eulerAngles.y, Vector3.up) * _moveDirection;
         OnDirectionChanged?.Invoke(_adjustedDirection);

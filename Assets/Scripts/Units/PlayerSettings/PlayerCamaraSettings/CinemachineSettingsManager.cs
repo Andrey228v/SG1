@@ -157,24 +157,24 @@ public class CinemachineSettingsManager : MonoBehaviour
 
     public void ApplyFirstPersonSettings(FirstPersonCameraSettings settings)
     {
-        if (settings == null) return;
+        //if (settings == null) return;
 
-        ApplySettings(settings);
+        //ApplySettings(settings);
 
-        // Additional first person setup for Cinemachine 3
-        if (_virtualCamera != null && _transposer != null)
-        {
-            _transposer.FollowOffset = settings.FirstPersonOffset;
+        //// Additional first person setup for Cinemachine 3
+        //if (_virtualCamera != null && _transposer != null)
+        //{
+        //    _transposer.FollowOffset = settings.FirstPersonOffset;
 
-            // Setup for first person view
-            var pov = _virtualCamera.GetComponent<CinemachinePOV>();
-            if (pov == null)
-            {
-                pov = _virtualCamera.AddComponent<CinemachinePOV>();
-            }
-            pov.m_VerticalAxis.m_MaxValue = settings.VerticalClampAngle;
-            pov.m_VerticalAxis.m_MinValue = -settings.VerticalClampAngle;
-        }
+        //    // Setup for first person view
+        //    var pov = _virtualCamera.GetComponent<CinemachinePOV>();
+        //    if (pov == null)
+        //    {
+        //        pov = _virtualCamera.AddComponent<CinemachinePOV>();
+        //    }
+        //    pov.m_VerticalAxis.m_MaxValue = settings.VerticalClampAngle;
+        //    pov.m_VerticalAxis.m_MinValue = -settings.VerticalClampAngle;
+        //}
     }
 
     public void ResetToDefault()

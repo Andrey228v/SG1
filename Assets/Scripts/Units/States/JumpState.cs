@@ -7,8 +7,6 @@ namespace Assets.Scripts.Units.States
     {
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
-        private float _deleyJumpState = 0.0f;
-        private float _currentDeleyJumpState = 0f;
 
         public JumpState(PlayerStateMachine playerStateMachine, Unit unit) 
         {
@@ -19,7 +17,6 @@ namespace Assets.Scripts.Units.States
         public void Enter()
         {
             Jump();
-            _currentDeleyJumpState = 0f;
         }
 
         public void Exit()
@@ -35,13 +32,11 @@ namespace Assets.Scripts.Units.States
 
         public void UpdateState()
         {
-            //CheckSwitchStates();
+            
         }
 
         public void CheckSwitchStates()
         {
-            _currentDeleyJumpState += Time.deltaTime;
-
             if (_unit.SignalReader.IsMove == true && _unit.PlayerView.CharacterView.IsOnGround() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Run);
@@ -58,7 +53,7 @@ namespace Assets.Scripts.Units.States
             {
                 Jump();
             }
-            else if(_unit.SignalReader.GetIsJumpButtonUp() && 0.0f <= _currentDeleyJumpState)
+            else if(_unit.SignalReader.GetIsJumpButtonUp())
             {
                 _unit.PlayerView.StopJump();
             }
