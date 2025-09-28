@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.DetectorProperties.GroundCheckerStrategy;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts.PlayerSettings
 {
@@ -10,9 +9,6 @@ namespace Assets.Scripts.PlayerSettings
         [SerializeField] private float _staySpeed = 0;
         [SerializeField] private float _runSpeed = 75;
         [SerializeField] private float _rotateSpeed = 500;
-
-        [Header("GroundChecker")]
-        [SerializeField] private AGroundCheckerStrategy _aGroundChecker;
 
         [Header("Jump")]
         [SerializeField] private float _deleyTimeFall = 0.5f; 
@@ -41,7 +37,6 @@ namespace Assets.Scripts.PlayerSettings
         public float StaySpeed => _staySpeed;
         public float RunSpeed => _runSpeed;
         public float RotateSpeed => _rotateSpeed;
-        public AGroundCheckerStrategy AGroundChecker => _aGroundChecker;
         public float DeleyTimeFall => _deleyTimeFall;
         public float CayoteTime => _cayoteTime;
         public float MaxJumpTime => _maxJumpTime;

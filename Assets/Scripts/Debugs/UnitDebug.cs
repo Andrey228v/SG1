@@ -7,9 +7,9 @@ namespace Assets.Scripts.Debugs
 {
     public class UnitDebug: MonoBehaviour
     {
-        [SerializeField] private Unit _unit;
-        [SerializeField] private PlayerStateMachine _playerStateMachine;
-        [SerializeField] private PlayerView _playerView;
+        //[SerializeField] private Unit _unit;
+        //[SerializeField] private PlayerStateMachine _playerStateMachine;
+        //[SerializeField] private PlayerView _playerView;
         [SerializeField] private TextMeshProUGUI _textUnitDirX;
         [SerializeField] private TextMeshProUGUI _textUnitDirY;
         [SerializeField] private TextMeshProUGUI _textUnitDirZ;
@@ -29,34 +29,26 @@ namespace Assets.Scripts.Debugs
 
         private void OnEnable()
         {
-            _playerView.OnDirectionChanged += SetDirection;
-            _playerStateMachine.OnChangedState += SetTextUnitState;
-            _playerView.OnGravityAmountChanged += SetGravityAmount;
-            _playerView.OnGravityCurrentChanged += SetVerticalVelocity;
-            _playerView.OnJumpAmountChanged += SetJumpAmount;
-            _playerView.OnSpeedChanged += SetSpeed;
-            _playerView.OnForceChanged += SetForce;
-            _playerView.OnIsGround += SetIsGround;
-            _playerView.OnIsFall += SetIsFall;
-            _unit.OnJumpButtonDown += SetIsJumpButtonDown;
-            _playerView.OnIsJumping += SetIsJump;
-            _unit.OnJumpButtonUp += SetIsJumpButtonUp;
+            //_playerView.OnDirectionChanged += SetDirection;
+            //_playerStateMachine.OnChangedState += SetTextUnitState;
+            //_playerView.OnForceChanged += SetForce;
+            //_playerView.OnIsGround += SetIsGround;
+            //_playerView.OnIsFall += SetIsFall;
+            //_unit.OnJumpButtonDown += SetIsJumpButtonDown;
+            //_playerView.OnIsJumping += SetIsJump;
+            //_unit.OnJumpButtonUp += SetIsJumpButtonUp;
         }
 
         private void OnDisable()
         {
-            _playerView.OnDirectionChanged -= SetDirection;
-            _playerStateMachine.OnChangedState -= SetTextUnitState;
-            _playerView.OnGravityAmountChanged -= SetGravityAmount;
-            _playerView.OnGravityCurrentChanged -= SetVerticalVelocity;
-            _playerView.OnJumpAmountChanged -= SetJumpAmount;
-            _playerView.OnSpeedChanged -= SetSpeed;
-            _playerView.OnForceChanged -= SetForce;
-            _playerView.OnIsGround -= SetIsGround;
-            _playerView.OnIsFall -= SetIsFall;
-            _unit.OnJumpButtonDown -= SetIsJumpButtonDown;
-            _playerView.OnIsJumping -= SetIsJump;
-            _unit.OnJumpButtonUp -= SetIsJumpButtonUp;
+            //_playerView.OnDirectionChanged -= SetDirection;
+            //_playerStateMachine.OnChangedState -= SetTextUnitState;
+            //_playerView.OnForceChanged -= SetForce;
+            //_playerView.OnIsGround -= SetIsGround;
+            //_playerView.OnIsFall -= SetIsFall;
+            //_unit.OnJumpButtonDown -= SetIsJumpButtonDown;
+            //_playerView.OnIsJumping -= SetIsJump;
+            //_unit.OnJumpButtonUp -= SetIsJumpButtonUp;
         }
 
         private void SetTextUnitState(string state)
@@ -93,11 +85,11 @@ namespace Assets.Scripts.Debugs
             _textUnitIsGround.text = isGround.ToString();
         }
 
-        private void SetVerticalVelocity(float gravity)
-        {
-            gravity = Mathf.Round(gravity * 100f) / 100f;
-            _textVerticalVelocity.text = gravity.ToString();
-        }
+        //private void SetVerticalVelocity(float gravity)
+        //{
+        //    gravity = Mathf.Round(gravity * 100f) / 100f;
+        //    _textVerticalVelocity.text = gravity.ToString();
+        //}
 
         private void SetDirection(Vector3 direction) 
         {

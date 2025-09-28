@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.DetectorProperties;
-using Assets.Scripts.PlayerSettings;
+﻿using Assets.Scripts.PlayerSettings;
 using Assets.Scripts.StateMachineUnit;
 using System;
 using UnityEngine;
@@ -15,7 +14,6 @@ namespace Assets.Scripts.Units
         public AnimatorPersonController AnimatorPersonController { get; private set; }
         public PlayerStateMachine PlayerStateMachine { get; private set; }
         public SignalReader SignalReader { get; private set; }
-        public DragChecker DragChecker { get; private set; }
 
         public event Action<bool> OnJumpButtonDown;
         public event Action<bool> OnJumpButtonUp;
