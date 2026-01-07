@@ -18,7 +18,6 @@ namespace Assets.Scripts
 
         private ISaveLoadService _saveLoadService;
         private SignalBus _signalBus;
-        //private GameSaveData _currentSave;
 
         [Inject]
         public void Initialize(CameraController cameraController, Transform spawnPoint, ISaveLoadService saveLoadService, SignalBus signalBus)
@@ -27,7 +26,6 @@ namespace Assets.Scripts
             transform.localPosition = spawnPoint.localPosition;
             _saveLoadService = saveLoadService;
             _signalBus = signalBus;
-            //_currentSave = currentSave;
         }
 
         private void OnEnable()
@@ -51,7 +49,7 @@ namespace Assets.Scripts
             _inputReader.OnJumpButtonDown += _unit.ProcessSignalJumpButtonDown;
             _inputReader.OnJumpButtonUp += _unit.ProcessSignalJumpButtonUp;
 
-            //LoadFromSave();
+            LoadFromSave();
         }
 
         private void OnDisable()
@@ -65,6 +63,7 @@ namespace Assets.Scripts
             _inputReader.OnStoped -= _unit.SetProcessSignalStop;
             _inputReader.OnJumpButtonDown -= _unit.ProcessSignalJumpButtonDown;
             _inputReader.OnJumpButtonUp -= _unit.ProcessSignalJumpButtonUp;
+
         }
 
         private void OnApplicationQuit()
@@ -94,7 +93,7 @@ namespace Assets.Scripts
 
         }
 
-        private void LoadFromSave()
+        public void LoadFromSave()
         {
             if (_saveLoadService.CurrentSave == null) return;
 

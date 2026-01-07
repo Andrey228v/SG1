@@ -24,6 +24,7 @@ namespace Assets
         public void Initialize()
         {
             PlayerController player = _playerFactory.Create();
+            //player.LoadFromSave();
             _trackingTarget = player.transform.GetChild(0);
             _cameraController.CameraCinemachine.Target.TrackingTarget = _trackingTarget;
         }

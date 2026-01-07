@@ -25,6 +25,8 @@ namespace Assets.Scripts.Services.Save
             _signalBus.Subscribe<CoinCollectedSignal>(OnCoinCollected);
             _signalBus.Subscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
             _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
+
+            //LoadGame();
         }
 
         public void Initialize()
@@ -33,9 +35,9 @@ namespace Assets.Scripts.Services.Save
             //_signalBus.Subscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
             //_signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
 
-            //LoadGame();
+            LoadGame();
 
-            //if (_currentSave == null)
+            //if (CurrentSave == null)
             //{
             //    CreateNewSave();
             //}
