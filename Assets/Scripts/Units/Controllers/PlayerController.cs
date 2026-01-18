@@ -1,6 +1,6 @@
-﻿using Assets.Scripts.Services.Save;
+﻿using Assets.Scripts.Debugs;
+using Assets.Scripts.Services.Save;
 using Assets.Scripts.Units;
-using System;
 using UnityEngine;
 using Zenject;
 
@@ -10,32 +10,39 @@ namespace Assets.Scripts
     {
         [Header("Referens:")]
         [SerializeField] private InputReader _inputReader;
-        
+        [SerializeField] private Transform _testPosition; //позиция для тестов...
+        [SerializeField] private Transform _testObj; //тестовый объект...
+
         private Unit _unit;
         private CameraController _cameraController;
-        private Transform _spawnPoint;
         private Vector3 _respawnPosition;
+        private Transform _spawnPoint;
+        private UnitDebug _unitDebug;
 
         private ISaveLoadService _saveLoadService;
         private SignalBus _signalBus;
 
         [Inject]
-        public void Initialize(CameraController cameraController, Transform spawnPoint, ISaveLoadService saveLoadService, SignalBus signalBus)
+        public void Initialize(CameraController cameraController,
+            [Inject(Id = "SpawnPoint")] Transform spawnPoint,
+            ISaveLoadService saveLoadService,
+            SignalBus signalBus,
+            UnitDebug unitDebug,
+            Unit unit
+            )
         {
             _cameraController = cameraController;
-            transform.localPosition = spawnPoint.localPosition;
             _saveLoadService = saveLoadService;
             _signalBus = signalBus;
+            _unitDebug = unitDebug;
+            _unit = unit;
+            _spawnPoint = spawnPoint;
         }
 
         private void OnEnable()
         {
-            Debug.Log("ON ENABLE PC");
-
-            _signalBus.Subscribe<GameLoadedSignal>(OnGameLoaded);
             _signalBus.Subscribe<GameSavedSignal>(OnGameSave);
-
-            _unit = transform.GetChild(0).GetComponent<Unit>();
+            _signalBus.Subscribe<GameLoadedSignal>(OnGameLoaded);
 
             _unit.Awake();
             _cameraController.CameraCinemachine.Follow = _unit.PlayerView.transform;
@@ -48,14 +55,12 @@ namespace Assets.Scripts
             _inputReader.OnStoped += _unit.SetProcessSignalStop;
             _inputReader.OnJumpButtonDown += _unit.ProcessSignalJumpButtonDown;
             _inputReader.OnJumpButtonUp += _unit.ProcessSignalJumpButtonUp;
-
-            LoadFromSave();
         }
 
         private void OnDisable()
         {
-            _signalBus.Unsubscribe<GameLoadedSignal>(OnGameLoaded);
             _signalBus.Unsubscribe<GameSavedSignal>(OnGameSave);
+            _signalBus.Unsubscribe<GameLoadedSignal>(OnGameLoaded);
 
             _inputReader.OnDirectionMoveChandged -= _cameraController.MoveDirectionToCameraDirection;
             _cameraController.OnDirectionChanged -= _unit.ProcessSignalDirection;
@@ -64,6 +69,11 @@ namespace Assets.Scripts
             _inputReader.OnJumpButtonDown -= _unit.ProcessSignalJumpButtonDown;
             _inputReader.OnJumpButtonUp -= _unit.ProcessSignalJumpButtonUp;
 
+        }
+
+        private void Start()
+        {
+            _unitDebug.SetUnit(_unit);
         }
 
         private void OnApplicationQuit()
@@ -83,62 +93,54 @@ namespace Assets.Scripts
 
         private void SavePlayerData()
         {
-            if (_saveLoadService.CurrentSave == null) return;
+            if (_saveLoadService.CurrentSave == null)
+            {
+                return;
+            }
 
             _saveLoadService.CurrentSave.PlayerData.Position = new Vector3Serializable(_unit.transform.position);
             _saveLoadService.CurrentSave.PlayerData.Rotation = new Vector3Serializable(_unit.transform.eulerAngles);
-
-            //_currentSave.PlayerData.Position = new Vector3Serializable(_unit.transform.position);
-            //_currentSave.PlayerData.Rotation = new Vector3Serializable(_unit.transform.eulerAngles);
-
         }
 
         public void LoadFromSave()
         {
-            if (_saveLoadService.CurrentSave == null) return;
-
-            //var playerData = _currentSave.PlayerData;
+            if (_saveLoadService.CurrentSave == null)
+            {
+                _unit.transform.position = _spawnPoint.position;
+                return;
+            }
 
             var playerData = _saveLoadService.CurrentSave.PlayerData;
-
-            //Смысл в том, что обновляя каждый кадр мы затираем ....
             _unit.transform.position = playerData.Position.ToVector3();
-            _respawnPosition = _unit.transform.position;
 
-
-            // Загрузка позиции
-            //if (!string.IsNullOrEmpty(playerData.CurrentCheckpointId))
-            //{
-            //    transform.position = playerData.Position.ToVector3();
-            //    _respawnPosition = transform.position;
-            //}
-
-            // Загрузка здоровья
-            //_health.SetHealth(playerData.Health);
-
-            // Загрузка собранных монет
-            //_coinCollector.SetCollectedCoins(playerData.CoinsCollected);
+            _testObj.transform.position = playerData.Position.ToVector3(); // test....
         }
 
-        private void OnDeath()
+        public void Test() // test....
         {
-            _signalBus.Fire(new PlayerDiedSignal());
-            Respawn();
+            _unit.transform.position = _testPosition.position; // test....
+            _testObj.transform.position = _testPosition.position; // test....
         }
+
+        //private void OnDeath()
+        //{
+        //    _signalBus.Fire(new PlayerDiedSignal());
+        //    Respawn();
+        //}
 
         public void SetCheckpoint(Vector3 position, string checkpointId)
         {
-            _respawnPosition = position;
-            _signalBus.Fire(new CheckpointActivatedSignal(checkpointId, position));
+            //_respawnPosition = position;
+            //_signalBus.Fire(new CheckpointActivatedSignal(checkpointId, position));
         }
 
         private void Respawn()
         {
-            transform.position = _respawnPosition;
-            //_health.ResetHealth();
-            _signalBus.Fire(new PlayerRespawnedSignal());
+            //transform.position = _respawnPosition;
+            ////_health.ResetHealth();
+            //_signalBus.Fire(new PlayerRespawnedSignal());
         }
 
-        public class Factory : PlaceholderFactory< PlayerController> { }
+        //public class Factory : PlaceholderFactory<PlayerController> { }
     }
 }

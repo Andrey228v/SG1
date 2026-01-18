@@ -2,6 +2,7 @@
 using Assets.Scripts.Units;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Scripts.Debugs
 {
@@ -27,28 +28,49 @@ namespace Assets.Scripts.Debugs
         [SerializeField] private TextMeshProUGUI _textUnitIsCanDoubleJump;
         [SerializeField] private TextMeshProUGUI _textUnitIsJumpButtonUp;
 
-        private void OnEnable()
+        private Unit _unit;
+
+        private void Init()
         {
-            //_playerView.OnDirectionChanged += SetDirection;
-            //_playerStateMachine.OnChangedState += SetTextUnitState;
-            //_playerView.OnForceChanged += SetForce;
-            //_playerView.OnIsGround += SetIsGround;
-            //_playerView.OnIsFall += SetIsFall;
-            //_unit.OnJumpButtonDown += SetIsJumpButtonDown;
-            //_playerView.OnIsJumping += SetIsJump;
-            //_unit.OnJumpButtonUp += SetIsJumpButtonUp;
+            _unit.PlayerView.OnDirectionChanged += SetDirection;
+            _unit.PlayerStateMachine.OnChangedState += SetTextUnitState;
+            _unit.PlayerView.OnForceChanged += SetForce;
+            _unit.PlayerView.OnIsGround += SetIsGround;
+            _unit.PlayerView.OnIsFall += SetIsFall;
+            _unit.OnJumpButtonDown += SetIsJumpButtonDown;
+            _unit.PlayerView.OnIsJumping += SetIsJump;
+            _unit.OnJumpButtonUp += SetIsJumpButtonUp;
         }
+
+        //private void OnEnable()
+        //{
+        //    //_playerView.OnDirectionChanged += SetDirection;
+        //    //_playerStateMachine.OnChangedState += SetTextUnitState;
+        //    //_playerView.OnForceChanged += SetForce;
+        //    //_playerView.OnIsGround += SetIsGround;
+        //    //_playerView.OnIsFall += SetIsFall;
+        //    _unit.OnJumpButtonDown += SetIsJumpButtonDown;
+        //    //_playerView.OnIsJumping += SetIsJump;
+        //    _unit.OnJumpButtonUp += SetIsJumpButtonUp;
+        //}
 
         private void OnDisable()
         {
-            //_playerView.OnDirectionChanged -= SetDirection;
-            //_playerStateMachine.OnChangedState -= SetTextUnitState;
-            //_playerView.OnForceChanged -= SetForce;
-            //_playerView.OnIsGround -= SetIsGround;
-            //_playerView.OnIsFall -= SetIsFall;
-            //_unit.OnJumpButtonDown -= SetIsJumpButtonDown;
-            //_playerView.OnIsJumping -= SetIsJump;
-            //_unit.OnJumpButtonUp -= SetIsJumpButtonUp;
+            _unit.PlayerView.OnDirectionChanged -= SetDirection;
+            _unit.PlayerStateMachine.OnChangedState -= SetTextUnitState;
+            _unit.PlayerView.OnForceChanged -= SetForce;
+            _unit.PlayerView.OnIsGround -= SetIsGround;
+            _unit.PlayerView.OnIsFall -= SetIsFall;
+            _unit.OnJumpButtonDown -= SetIsJumpButtonDown;
+            _unit.PlayerView.OnIsJumping -= SetIsJump;
+            _unit.OnJumpButtonUp -= SetIsJumpButtonUp;
+        }
+
+        public void SetUnit(Unit unit)
+        {
+            _unit = unit;
+            Init();
+
         }
 
         private void SetTextUnitState(string state)

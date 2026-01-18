@@ -1,11 +1,15 @@
 ﻿using System;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts.Services.Save
 {
-    public class SaveLoadService : ISaveLoadService, IInitializable
+
+    //1) При отсутсвии сохранения загружать уровень со старта. + 
+    //2) При удалении сохранений сбрасывать прогресс до начала уровня.
+    //3) Протестировать ES3
+    //4) При рестарте необходимо возвращать все объекты к начальному состоянию: Чекпоинты, монетки и т.д. Надо придумать как ...
+    public class SaveLoadService : ISaveLoadService, IInitializable, IDisposable
     {
         private const string SAVE_KEY = "game_save";
 
@@ -13,7 +17,6 @@ namespace Assets.Scripts.Services.Save
         public GameSaveData CurrentSave { get; private set; }
 
         public bool HasSave => PlayerPrefs.HasKey(SAVE_KEY);
-        //public GameSaveData CurrentSave => _currentSave;
 
         public event Action OnGameSaved;
         public event Action OnGameLoaded;
@@ -22,31 +25,23 @@ namespace Assets.Scripts.Services.Save
         public SaveLoadService(SignalBus signalBus)
         {
             _signalBus = signalBus;
-            _signalBus.Subscribe<CoinCollectedSignal>(OnCoinCollected);
-            _signalBus.Subscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
-            _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
-
-            //LoadGame();
+            CurrentSave = new GameSaveData();
         }
 
         public void Initialize()
         {
-            //_signalBus.Subscribe<CoinCollectedSignal>(OnCoinCollected);
-            //_signalBus.Subscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
-            //_signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
+            _signalBus.Subscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
+            _signalBus.Subscribe<CoinCollectedSignal>(OnCoinCollected);
+            _signalBus.Subscribe<PlayerDiedSignal>(OnPlayerDied);
 
-            LoadGame();
+            //LoadGame(); // Загружаться игра должна после того как прошла инициализация ...
+        }
 
-            //if (CurrentSave == null)
-            //{
-            //    CreateNewSave();
-            //}
-            //else
-            //{
-            //    LoadGame();
-            //}
-
-            //_signalBus.Subscribe<GameSavedSignal>(OnGameSaveRequested);
+        public void Dispose()
+        {
+            _signalBus.Unsubscribe<CoinCollectedSignal>(OnCoinCollected);
+            _signalBus.Unsubscribe<CheckpointActivatedSignal>(OnCheckpointActivated);
+            _signalBus.Unsubscribe<PlayerDiedSignal>(OnPlayerDied);
         }
 
         public void SaveGame()
@@ -65,14 +60,13 @@ namespace Assets.Scripts.Services.Save
 
             PlayerPrefs.SetString(SAVE_KEY, json);
             PlayerPrefs.Save();
-
-            //_signalBus.Fire(new GameSavedSignal());
         }
 
         public void LoadGame()
         {
             if (!HasSave) // Надо ли это ??....
             {
+                _signalBus.Fire(new GameLoadedSignal());
                 CreateNewSave();
                 return;
             }
@@ -84,6 +78,9 @@ namespace Assets.Scripts.Services.Save
             //_currentSave = JsonUtility.FromJson<GameSaveData>(json); ///
 
             //OnGameLoaded?.Invoke();
+
+            //Тут отправляем сигнал всем кто должен загружаться ... 
+            //Отправили игроку. А как загружать объекты...
             _signalBus.Fire(new GameLoadedSignal());
         }
 
@@ -91,16 +88,12 @@ namespace Assets.Scripts.Services.Save
         {
             PlayerPrefs.DeleteKey(SAVE_KEY);
             CurrentSave = null;
+            _signalBus.Fire(new GameLoadedSignal());
         }
 
         public void CreateNewSave()
         {
-
-            CurrentSave = new GameSaveData
-            {
-                SaveTime = DateTime.Now,
-                PlayerData = new PlayerSaveData(),
-            };
+            CurrentSave.Restart();
 
             //LevelData = new LevelSaveData(),
             //ProgressData = new GameProgressData()
@@ -124,9 +117,18 @@ namespace Assets.Scripts.Services.Save
 
         private void OnCheckpointActivated(CheckpointActivatedSignal signal)
         {
-            //if (_currentSave == null) return;
+
+            if (CurrentSave == null) return;
 
             //_currentSave.PlayerData.CurrentCheckpointId = signal.CheckpointId;
+
+            //CurrentSave.PlayerData;
+
+            CurrentSave.CheckpointData.CheckpointId = signal.CheckpointId;
+            CurrentSave.CheckpointData.Position = new Vector3Serializable(signal.Position);
+            CurrentSave.CheckpointData.IsActivated = true;
+
+            SaveGame();
         }
 
         private void OnPlayerDied(PlayerDiedSignal signal)
@@ -147,5 +149,7 @@ namespace Assets.Scripts.Services.Save
             //PlayerPrefs.SetString(SAVE_KEY, json);
             //PlayerPrefs.Save();
         }
+
+        
     }
 }

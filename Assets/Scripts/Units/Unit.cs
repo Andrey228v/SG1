@@ -1,13 +1,15 @@
 ﻿using Assets.Scripts.PlayerSettings;
+using Assets.Scripts.Services.Pause;
 using Assets.Scripts.StateMachineUnit;
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Assets.Scripts.Units
 {
     [RequireComponent(typeof(PlayerView), typeof(AnimatorPersonController))]
     [RequireComponent(typeof(PlayerStateMachine), typeof(SignalReader))]
-    public class Unit : MonoBehaviour
+    public class Unit : MonoBehaviour, IPause
     {
         [field: SerializeField] public UnitSetting Settings { get; private set; }
         public PlayerView PlayerView { get; private set; }
@@ -15,6 +17,7 @@ namespace Assets.Scripts.Units
         public PlayerStateMachine PlayerStateMachine { get; private set; }
         public SignalReader SignalReader { get; private set; }
 
+        public event Action<Vector3> OnChangePosition;
         public event Action<bool> OnJumpButtonDown;
         public event Action<bool> OnJumpButtonUp;
 
@@ -26,6 +29,11 @@ namespace Assets.Scripts.Units
             SignalReader = GetComponent<SignalReader>();
         }
 
+        public void Initialize()
+        {
+
+        }
+
         public void ProcessSignalDirection(Vector3 direction)
         {
             PlayerView.SetMoveDirection(direction);
@@ -33,7 +41,7 @@ namespace Assets.Scripts.Units
 
         public void SetProcessSignalMove()
         {
-            SignalReader.SetIsMove(true); 
+            SignalReader.SetIsMove(true);
         }
 
         public void SetProcessSignalStop()
@@ -62,5 +70,19 @@ namespace Assets.Scripts.Units
             SignalReader.SetIsJumpButtonUp(isUp);
             OnJumpButtonUp?.Invoke(isUp);
         }
+
+        public void Pause()
+        {
+            PlayerView.Pause();
+            PlayerStateMachine.Pause();
+        }
+
+        public void UnPause()
+        {
+            PlayerView.UnPause();
+            PlayerStateMachine.UnPause();
+        }
+
+        public class Factory : PlaceholderFactory<Unit> { }
     }
 }

@@ -72,6 +72,5 @@ namespace Assets.Scripts.Units
 
                 return _isUp;
         }
-
     }
 }

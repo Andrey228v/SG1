@@ -1,6 +1,5 @@
 ﻿using Assets.Scripts.Units;
 using Assets.Scripts.Units.States;
-using UnityEngine;
 
 namespace Assets.Scripts.StateMachineUnit
 {
@@ -9,7 +8,7 @@ namespace Assets.Scripts.StateMachineUnit
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
 
-        public RunState(PlayerStateMachine playerStateMachine, Unit unit) 
+        public RunState(PlayerStateMachine playerStateMachine, Unit unit)
         {
             _unit = unit;
             _playerStateMachine = playerStateMachine;
@@ -32,9 +31,9 @@ namespace Assets.Scripts.StateMachineUnit
 
         public void UpdateState()
         {
-            
+
         }
-        
+
         public void CheckSwitchStates()
         {
             if (_unit.SignalReader.GetIsJumpButtonDown() == true)
@@ -48,7 +47,6 @@ namespace Assets.Scripts.StateMachineUnit
             }
             else if (_unit.PlayerView.CharacterView.IsFalling())
             {
-                //_unit.PlayerView.GetIsGrounded() == false
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }
         }

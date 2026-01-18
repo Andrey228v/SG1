@@ -88,7 +88,7 @@ Transform:
   m_GameObject: {fileID: 2306233418013663194}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 2.0466986, z: -0.004621925}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -629,7 +629,7 @@ GameObject:
   - component: {fileID: 2031853157857313241}
   - component: {fileID: 1688571644223161820}
   m_Layer: 0
-  m_Name: OriginalFBXRIG
+  m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -644,7 +644,7 @@ Transform:
   m_GameObject: {fileID: 6032692036256444754}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.721216, y: 0.56, z: -7.5369287}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -686,6 +686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fca786263ed8baa4a9a0ddd9ff49c071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsPause: 0
 --- !u!114 &7094225295547621919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,10 +782,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.94
+  m_Height: 5.74
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 2.87, z: 0}
 --- !u!114 &2031853157857313241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,8 +801,8 @@ MonoBehaviour:
   _planeConstraint: 0
   _rootTransform: {fileID: 0}
   _rootTransformOffset: {x: 0, y: 0, z: 0}
-  _radius: 0.5
-  _height: 2
+  _radius: 0.94
+  _height: 5.74
   _slopeLimit: 45
   _stepOffset: 0.45
   _perchOffset: 0.5
@@ -838,7 +839,7 @@ MonoBehaviour:
   _rotationMode: 1
   _rotationRate: 540
   _startingMovementMode: 1
-  _maxWalkSpeed: 5
+  _maxWalkSpeed: 15
   _minAnalogWalkSpeed: 0
   _maxAcceleration: 20
   _brakingDecelerationWalking: 20
@@ -849,16 +850,16 @@ MonoBehaviour:
   _maxWalkSpeedCrouched: 3
   _maxFallSpeed: 40
   _brakingDecelerationFalling: 0
-  _fallingLateralFriction: 0.3
-  _airControl: 0.3
+  _fallingLateralFriction: 1
+  _airControl: 0.74
   _canEverJump: 1
   _canJumpWhileCrouching: 1
-  _jumpMaxCount: 1
-  _jumpImpulse: 5
+  _jumpMaxCount: 2
+  _jumpImpulse: 30
   _jumpMaxHoldTime: 0
   _jumpMaxPreGroundedTime: 0
   _jumpMaxPostGroundedTime: 0
-  _maxFlySpeed: 10
+  _maxFlySpeed: 5
   _brakingDecelerationFlying: 0
   _flyingFriction: 1
   _maxSwimSpeed: 3
@@ -866,7 +867,7 @@ MonoBehaviour:
   _swimmingFriction: 0
   _buoyancy: 1
   _gravity: {x: 0, y: -9.81, z: 0}
-  _gravityScale: 1
+  _gravityScale: 6
   _useRootMotion: 0
   _impartPlatformMovement: 0
   _impartPlatformRotation: 0

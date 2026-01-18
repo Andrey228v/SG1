@@ -8,7 +8,7 @@ namespace Assets.Scripts.Units.States
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
 
-        public JumpState(PlayerStateMachine playerStateMachine, Unit unit) 
+        public JumpState(PlayerStateMachine playerStateMachine, Unit unit)
         {
             _unit = unit;
             _playerStateMachine = playerStateMachine;
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Units.States
 
         public void UpdateState()
         {
-            
+
         }
 
         public void CheckSwitchStates()
@@ -49,11 +49,11 @@ namespace Assets.Scripts.Units.States
             {
                 _playerStateMachine.SelectState(UnitStateType.Fall);
             }
-            else if(_unit.SignalReader.GetIsJumpButtonDown() == true)
+            else if (_unit.SignalReader.GetIsJumpButtonDown() == true)
             {
                 Jump();
             }
-            else if(_unit.SignalReader.GetIsJumpButtonUp())
+            else if (_unit.SignalReader.GetIsJumpButtonUp())
             {
                 _unit.PlayerView.StopJump();
             }

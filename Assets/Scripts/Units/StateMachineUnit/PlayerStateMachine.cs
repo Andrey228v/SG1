@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.PlayerSettings;
+using Assets.Scripts.Services.Pause;
 using Assets.Scripts.Units;
 using Assets.Scripts.Units.States;
 using System;
@@ -6,13 +7,17 @@ using UnityEngine;
 
 namespace Assets.Scripts.StateMachineUnit
 {
-    public class PlayerStateMachine : MonoBehaviour
+
+    //1) ОНА УЖЕ НЕ ИСПОЛЬЗУЕТСЯ ИЗ-ЗА ВСТРЕННОЙ СТЕЙТ МАШИНЫ CHARACTER CONTROLLER...
+    //2) ТЕСТЫ ПОКАЗАЛИ ЧТО ВСТРОЕННАЯ МАШИНА НЕ УДОБНАЯ И В НЕЙ РАЗБИРАТЬСЯ ДОЛГО, ПОЭТОМУ ОСТАВЛЯЕМ НАШУ...
+    public class PlayerStateMachine : MonoBehaviour, IPause
     {
         private Unit _unit;
         private StayState _stayState;
         private RunState _runState;
         private JumpState _jumpState;
         private FallState _fallState;
+        private bool _pause = false;
 
         public event Action<string> OnChangedState;
 
@@ -36,12 +41,18 @@ namespace Assets.Scripts.StateMachineUnit
 
         private void Update()
         {
-            CurrentState.UpdateState();
+            if (_pause == false)
+            {
+                CurrentState.UpdateState();
+            }
         }
 
         private void FixedUpdate()
         {
-            CurrentState.FixedUpdate();
+            if (_pause == false)
+            {
+                CurrentState.FixedUpdate();
+            }
         }
 
         private void ChangeState(IStateUnit newState)
@@ -56,33 +67,43 @@ namespace Assets.Scripts.StateMachineUnit
             switch (stateType)
             {
                 case UnitStateType.Stay:
-                    Debug.Log(UnitStateType.Stay.ToString());
+                    //Debug.Log(UnitStateType.Stay.ToString());
                     ChangeState(_stayState);
                     OnChangedState?.Invoke(UnitStateType.Stay.ToString());
                     break;
 
                 case UnitStateType.Run:
-                    Debug.Log(UnitStateType.Run.ToString());
+                    //Debug.Log(UnitStateType.Run.ToString());
                     ChangeState(_runState);
                     OnChangedState?.Invoke(UnitStateType.Run.ToString());
                     break;
 
                 case UnitStateType.Jump:
-                    Debug.Log(UnitStateType.Jump.ToString());
+                    //Debug.Log(UnitStateType.Jump.ToString());
                     ChangeState(_jumpState);
                     OnChangedState?.Invoke(UnitStateType.Jump.ToString());
                     break;
 
                 case UnitStateType.Fall:
-                    Debug.Log(UnitStateType.Fall.ToString());
+                    //Debug.Log(UnitStateType.Fall.ToString());
                     ChangeState(_fallState);
                     OnChangedState?.Invoke(UnitStateType.Fall.ToString());
                     break;
 
                 default:
-                    Console.WriteLine("None State");
+                    //Console.WriteLine("None State");
                     break;
             }
+        }
+
+        public void Pause()
+        {
+            _pause = true;
+        }
+
+        public void UnPause()
+        {
+            _pause = false;
         }
     }
 }
