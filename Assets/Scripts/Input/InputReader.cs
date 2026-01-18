@@ -17,7 +17,7 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     private void OnEnable()
     {
-        if(_playerInput == null)
+        if (_playerInput == null)
         {
             _playerInput = new PlayerInput();
             _playerInput.Player.SetCallbacks(this);
@@ -74,7 +74,7 @@ public class InputReader : ScriptableObject, IPlayerActions
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(context.started == true)
+        if (context.started == true)
         {
             OnDirectionMoveChandged?.Invoke(context.ReadValue<Vector2>());
             OnMoved?.Invoke();

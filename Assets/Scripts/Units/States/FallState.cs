@@ -31,12 +31,6 @@ namespace Assets.Scripts.Units.States
 
         public void UpdateState()
         {
-            //if (_unit.SignalReader.GetIsJumpButtonUp())
-            //{
-            //    _unit.PlayerView.StopJump();
-            //}
-
-            //CheckSwitchStates();
         }
 
         public void CheckSwitchStates()
@@ -44,7 +38,6 @@ namespace Assets.Scripts.Units.States
             if (_unit.PlayerView.CharacterView.IsOnGround())
             {
                 _playerStateMachine.SelectState(UnitStateType.Stay);
-                //_unit.PlayerView.ResetJumpCount();
             }
             else if (_unit.SignalReader.GetIsJumpButtonDown() == true)
             {

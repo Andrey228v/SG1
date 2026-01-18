@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Codice.CM.Common;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -329,6 +330,12 @@ namespace ECM2
         private int _jumpCurrentCount;
 
         protected float _fallingTime;
+
+
+        //private const string STATICIDLE_B = "Static_b";
+        //private const string SPEED_F = "Speed_f";
+        //private const string ISJUMPING_B = "IsJumping_b";
+        //private const string ISFALLING_B = "IsFalling_b";
 
         #endregion
 
@@ -1983,7 +1990,8 @@ namespace ECM2
                     
                     characterMovement.velocity = Vector3.zero;
                     characterMovement.ClearAccumulatedForces();
-                    
+                    //_animator.SetBool(STATICIDLE_B, true);      //CUSTOM UPGRADE
+
                     break;
                 
                 case MovementMode.Walking:
@@ -2002,7 +2010,8 @@ namespace ECM2
                     // Trigger Landed event
                     
                     OnLanded(characterMovement.landedVelocity);
-                    
+                    //_animator.SetFloat(SPEED_F, 1);      //CUSTOM UPGRADE
+
                     break;
                 
                 case MovementMode.Falling:
@@ -2012,8 +2021,12 @@ namespace ECM2
                     // If was flying or swimming, enable ground constraint as it could lands on walkable ground
                     
                     if (prevMovementMode == MovementMode.Flying || prevMovementMode == MovementMode.Swimming)
+                    {
                         characterMovement.constrainToGround = true;
-                    
+                    }
+
+                    //_animator.SetBool(ISFALLING_B, true);   //CUSTOM UPGRADE
+
                     break;
                 
                 case MovementMode.Flying:

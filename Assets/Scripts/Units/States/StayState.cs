@@ -8,7 +8,7 @@ namespace Assets.Scripts.Units.States
         private Unit _unit;
         private PlayerStateMachine _playerStateMachine;
 
-        public StayState(PlayerStateMachine playerStateMachine, Unit unit) 
+        public StayState(PlayerStateMachine playerStateMachine, Unit unit)
         {
             _unit = unit;
             _playerStateMachine = playerStateMachine;
@@ -21,7 +21,7 @@ namespace Assets.Scripts.Units.States
 
         public void Exit()
         {
-            
+
         }
 
         public void FixedUpdate()
@@ -31,12 +31,12 @@ namespace Assets.Scripts.Units.States
 
         public void UpdateState()
         {
-            //CheckSwitchStates();
+
         }
 
         public void CheckSwitchStates()
         {
-            if(_unit.SignalReader.GetIsJumpButtonDown() == true)
+            if (_unit.SignalReader.GetIsJumpButtonDown() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }

@@ -40,12 +40,12 @@ namespace Assets.Scripts
             _animator.SetFloat(Speed, speed);
         }
 
-        public void SetJump(bool isJump) 
+        public void SetJump(bool isJump)
         {
             _animator.SetBool(IsJumping, isJump);
         }
 
-        public void SetFall(bool isFall) 
+        public void SetFall(bool isFall)
         {
             _animator.SetBool(IsFalling_b, isFall);
         }
