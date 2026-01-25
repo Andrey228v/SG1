@@ -9,10 +9,12 @@ namespace Assets.Scripts.GameSM
     {
         NotStarted,
         LoadingServices,
+        Initialized,
         LoadingGameData,
         Ready
     }
 
+    //Версия #1
     public class StateMachineGame : IInitializable, ITickable
     {
         private InitializationState _state = InitializationState.NotStarted;
@@ -24,10 +26,12 @@ namespace Assets.Scripts.GameSM
         {
             _asyncServices = asyncServices;
             _saveLoadService = saveLoadService;
+            Debug.Log("TEST");
         }
 
         public void Initialize()
         {
+            Debug.Log("TEST");
             _state = InitializationState.LoadingServices;
             StartServicesInitialization();
         }
@@ -39,6 +43,9 @@ namespace Assets.Scripts.GameSM
                 case InitializationState.LoadingServices:
                     CheckServicesProgress();
                     Debug.Log($"_servicesLoaded:{_servicesLoaded}");
+                    break;
+                case InitializationState.Initialized:
+                    //Всё проинициализированно, игра ждёт действий.
                     break;
                 case InitializationState.LoadingGameData:
                     // Можно добавить прогресс загрузки
@@ -74,8 +81,8 @@ namespace Assets.Scripts.GameSM
             if (_servicesLoaded >= _asyncServices.Count)
             {
                 Debug.Log("1)Игра полностью инициализирована!");
-                _state = InitializationState.LoadingGameData;
-                LoadGameData();
+                _state = InitializationState.Initialized;
+                //LoadGameData();
             }
         }
 
