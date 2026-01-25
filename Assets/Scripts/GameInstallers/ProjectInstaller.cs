@@ -1,19 +1,30 @@
+using Assets.Scripts;
 using Assets.Scripts.GameSM;
+using Assets.Scripts.GameSM.States;
 using Assets.Scripts.GameSM.Test;
 using Assets.Scripts.Services.Initializer;
 using Assets.Scripts.Services.Save;
+using Assets.Scripts.Units;
 using UnityEngine;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
+    [SerializeField] private GameSettings _gameSettings;
+
     public override void InstallBindings()
     {
-        Debug.Log("PROJ INSTALLER");
-
+        
         Application.targetFrameRate = 60;
 
         SignalBusInstaller.Install(Container);
+
+        
+
+        Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
+        Container.Bind<PlayerProgress>().AsSingle().NonLazy();
+        Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
+        //Container.Bind<GameStateMachine>().AsSingle().NonLazy();
 
         //TEST
         Container.BindInterfacesAndSelfTo<Test1Serv>().AsSingle(); // test
@@ -22,8 +33,13 @@ public class ProjectInstaller : MonoInstaller
         // Сервисы
         Container.BindInterfacesAndSelfTo<InitService>().AsSingle(); // test
         Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
+
         //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle().CopyIntoAllSubContainers();
-        Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle();
+        //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle();
+
+        Container.BindInterfacesAndSelfTo<LoadGameState>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MenuState>().AsSingle();
+
 
         //// Сигналы
         Container.DeclareSignal<GameSavedSignal>();
@@ -32,5 +48,9 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<CheckpointActivatedSignal>();
         Container.DeclareSignal<PlayerDiedSignal>();
         Container.DeclareSignal<PlayerRespawnedSignal>();
+        Container.DeclareSignal<ApplicationFocusSignal>();
+        Container.DeclareSignal<ApplicationPauseSignal>();
+        Container.DeclareSignal<ApplicationQuitSignal>();
+        Container.DeclareSignal<BootCompleteSignal>();
     }
 }

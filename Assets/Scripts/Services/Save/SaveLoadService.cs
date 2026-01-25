@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Units;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Services.Save
     public class SaveLoadService : ISaveLoadService, IInitializable, IDisposable
     {
         private const string SAVE_KEY = "game_save";
+        private const string SAVE_KEY_PROGRESS = "game_save_progress";
 
         private SignalBus _signalBus;
         public GameSaveData CurrentSave { get; private set; }
@@ -44,6 +46,14 @@ namespace Assets.Scripts.Services.Save
             _signalBus.Unsubscribe<PlayerDiedSignal>(OnPlayerDied);
         }
 
+        //Сохранение прогресса ....
+        public void SaveProgress(PlayerProgress progress)
+        {
+            string json = JsonUtility.ToJson(progress);
+            PlayerPrefs.SetString(SAVE_KEY_PROGRESS, json);
+            PlayerPrefs.Save();
+        }
+
         public void SaveGame()
         {
             if (CurrentSave == null)
@@ -60,6 +70,16 @@ namespace Assets.Scripts.Services.Save
 
             PlayerPrefs.SetString(SAVE_KEY, json);
             PlayerPrefs.Save();
+        }
+
+        //Загрузка прогресса... 
+        //Надо ли это пока не знаю...
+        public PlayerProgress LoadProgress()
+        {
+            if (HasSave == false) return new PlayerProgress();
+
+            string json = PlayerPrefs.GetString(SAVE_KEY_PROGRESS);
+            return JsonUtility.FromJson<PlayerProgress>(json);
         }
 
         public void LoadGame()
