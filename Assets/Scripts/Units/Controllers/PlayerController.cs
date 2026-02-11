@@ -98,19 +98,19 @@ namespace Assets.Scripts
                 return;
             }
 
-            _saveLoadService.CurrentSave.PlayerData.Position = new Vector3Serializable(_unit.transform.position);
-            _saveLoadService.CurrentSave.PlayerData.Rotation = new Vector3Serializable(_unit.transform.eulerAngles);
+            _saveLoadService.CurrentSave.playerSaveData.Position = new Vector3Serializable(_unit.transform.position);
+            _saveLoadService.CurrentSave.playerSaveData.Rotation = new Vector3Serializable(_unit.transform.eulerAngles);
         }
 
         public void LoadFromSave()
         {
-            if (_saveLoadService.CurrentSave == null)
+            if (_saveLoadService.IsFirstLoad())
             {
                 _unit.transform.position = _spawnPoint.position;
                 return;
             }
 
-            var playerData = _saveLoadService.CurrentSave.PlayerData;
+            var playerData = _saveLoadService.CurrentSave.playerSaveData;
             _unit.transform.position = playerData.Position.ToVector3();
 
             _testObj.transform.position = playerData.Position.ToVector3(); // test....

@@ -75,7 +75,7 @@ namespace Assets.Scripts.Services.Save
 
         private void UpdateUI()
         {
-            bool hasSave = _saveLoadService.HasSave;
+            bool hasSave = _saveLoadService.HasSave();
             _loadButton.gameObject.SetActive(hasSave);
             _deleteButton.gameObject.SetActive(hasSave);
         }

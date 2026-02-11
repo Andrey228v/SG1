@@ -8,23 +8,15 @@ namespace Assets.Scripts.Services.Save
     public class GameSaveData
     {
         public string SaveVersion = "1.0";
-        public DateTime SaveTime;
+        public DateTime SaveTime; 
+        public PlayerSaveData playerSaveData = new PlayerSaveData();
+        public CheckpointsSaveDataList checkpointsSaveData = new CheckpointsSaveDataList();
 
-        public PlayerSaveData PlayerData = new PlayerSaveData();
-        public CheckpointSaveData CheckpointData = new CheckpointSaveData();
-
-        // Данные уровня
-        //public LevelSaveData LevelData = new LevelSaveData();
-
-        // Прогресс игры
-        //public GameProgressData ProgressData = new GameProgressData();
-
-        public void Restart()
+        public void RefreshSave()
         {
-            SaveTime = DateTime.Now;
-            PlayerData = new PlayerSaveData();
-            CheckpointData = new CheckpointSaveData();
+
         }
+
     }
 
     [Serializable]
@@ -32,45 +24,19 @@ namespace Assets.Scripts.Services.Save
     {
         public Vector3Serializable Position;
         public Vector3Serializable Rotation;
-        //public int Health = 100;
-        //public int CoinsCollected;
-        //public string CurrentCheckpointId;
-        //public List<string> CollectedCoins = new List<string>();
     }
 
     [Serializable]
-    public class LevelSaveData
+    public class CheckpointsSaveDataList
     {
-        //public string LevelName;
-        //public List<CoinSaveData> Coins = new List<CoinSaveData>();
-        //public List<CheckpointSaveData> Checkpoints = new List<CheckpointSaveData>();
-    }
-
-    [Serializable]
-    public class CoinSaveData
-    {
-        //public string CoinId;
-        //public bool IsCollected;
-        //public Vector3Serializable Position;
+        public List<CheckpointSaveData> checkpointsList = new List<CheckpointSaveData>();
     }
 
     [Serializable]
     public class CheckpointSaveData
     {
-        //Сохранение текущего чекпоинта.
-        public string CheckpointId;
-        public Vector3Serializable Position;
-        public bool IsActivated;
-        public Dictionary<string, Checkpoint> CheckpointsDictionary = new Dictionary<string, Checkpoint>();
-    }
-
-    [Serializable]
-    public class GameProgressData
-    {
-        //public int TotalCoins;
-        //public int TotalDeaths;
-        //public float PlayTime;
-        //public List<string> CompletedLevels = new List<string>();
+        public string checkpointId;
+        public bool isActivated;
     }
 
     [Serializable]

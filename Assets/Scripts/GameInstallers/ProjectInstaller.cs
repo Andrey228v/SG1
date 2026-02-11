@@ -1,4 +1,5 @@
 using Assets.Scripts;
+using Assets.Scripts.GameInstallers.Signals;
 using Assets.Scripts.GameSM;
 using Assets.Scripts.GameSM.States;
 using Assets.Scripts.GameSM.Test;
@@ -14,12 +15,9 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        
         Application.targetFrameRate = 60;
 
         SignalBusInstaller.Install(Container);
-
-        
 
         Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
         Container.Bind<PlayerProgress>().AsSingle().NonLazy();
@@ -39,7 +37,7 @@ public class ProjectInstaller : MonoInstaller
 
         Container.BindInterfacesAndSelfTo<LoadGameState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MenuState>().AsSingle();
-
+        Container.BindInterfacesAndSelfTo<GameState>().AsSingle();
 
         //// Сигналы
         Container.DeclareSignal<GameSavedSignal>();
@@ -52,5 +50,9 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<ApplicationPauseSignal>();
         Container.DeclareSignal<ApplicationQuitSignal>();
         Container.DeclareSignal<BootCompleteSignal>();
+        Container.DeclareSignal<OnGameInitialized>();
+        Container.DeclareSignal<OnGameLoaded>();
+        Container.DeclareSignal<OnMenuLoadGameClickedSignal>();
+        Container.DeclareSignal<OnCheckPointActivated>();
     }
 }

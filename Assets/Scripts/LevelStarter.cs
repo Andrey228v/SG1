@@ -28,7 +28,7 @@ namespace Assets
         {
             _trackingTarget = _unit.transform;
 
-            if (_saveLoadService.CurrentSave == null)
+            if (_saveLoadService.IsFirstLoad())
             {
                 _unit.transform.position = _spawnPoint.position;
             }
