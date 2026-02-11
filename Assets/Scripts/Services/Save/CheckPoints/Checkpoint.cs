@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Units;
+﻿using Assets.Scripts.GameInstallers.Signals;
+using Assets.Scripts.Units;
+using Assets.Scripts.Utilites;
 using UnityEngine;
 using Zenject;
 
@@ -10,12 +12,12 @@ namespace Assets.Scripts.Services.Save
 
         [field: SerializeField] public string CheckpointId { get; private set; } // А нужно ли это ??.....
         [SerializeField] private bool IsActivated = false;
-        [SerializeField] private ParticleSystem _activationEffect;
-        [SerializeField] private Light _activationLight;
 
 
         private void Awake()
         {
+            IsActivated = false;
+
             // Генерируем уникальный ID если не установлен
             if (string.IsNullOrEmpty(CheckpointId))
             {
@@ -25,7 +27,10 @@ namespace Assets.Scripts.Services.Save
 
         private void OnTriggerEnter(Collider other)
         {
-            if (IsActivated) return;
+            if (IsActivated)
+            {
+                return;
+            }
 
             if (other.GetComponent<Unit>() == false)
             {
@@ -37,38 +42,39 @@ namespace Assets.Scripts.Services.Save
 
         private void Activate()
         {
-            Debug.Log("ACTIVATE SAVE");
-
             IsActivated = true;
-
-            // Визуальные эффекты
-            if (_activationEffect != null) _activationEffect.Play();
-            if (_activationLight != null) _activationLight.color = Color.green;
-
-            // Отправляем сигнал
-            _signalBus.Fire(new CheckpointActivatedSignal(CheckpointId, transform.position));
-
-            //Destroy(gameObject);
             gameObject.SetActive(false);
+            _signalBus.Fire(new OnCheckPointActivated());
         }
 
         public void Deactivate()
         {
             IsActivated = false;
-            if (_activationLight != null) _activationLight.color = Color.red;
             gameObject.SetActive(true);
         }
 
-        public void Save()
+        public CheckpointSaveData Save()
         {
+            CheckpointSaveData checkpointSaveData = new CheckpointSaveData();
 
+            try
+            {
+                checkpointSaveData.checkpointId = CheckpointId;
+                checkpointSaveData.isActivated = IsActivated;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"❌ Ошибка сохранения чекпоинта {CheckpointId}: {ex.Message}", this);
+            }
+
+            return checkpointSaveData;
         }
 
-        public void Load(Checkpoint loadData)
+        public void Load(CheckpointSaveData checkpointSaveData)
         {
-            CheckpointId = loadData.CheckpointId;
-            IsActivated = loadData.IsActivated;
-
+            CheckpointId = checkpointSaveData.checkpointId;
+            IsActivated = checkpointSaveData.isActivated;
+            
             if (IsActivated)
             {
                 gameObject.SetActive(false);

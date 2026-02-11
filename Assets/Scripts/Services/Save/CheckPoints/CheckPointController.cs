@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.GameSM;
+using Assets.Scripts.Utilites;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,18 +7,22 @@ using Zenject;
 
 namespace Assets.Scripts.Services.Save.CheckPoints
 {
-    public class CheckPointController : IInitializable, IDisposable, IAsyncService
+    public class CheckPointController : IInitializable, IDisposable, IAsyncService, IInitEvent
     {
-        private Dictionary<string, Checkpoint> _checkpointsDictionary;
+        //private Dictionary<string, Checkpoint> _checkpointsDictionary;
+        private List<Checkpoint> _checkPoints;
+        private int _checkpointsCount;
         private SignalBus _signalBus;
-        private Transform _checkPoints;
+        private Transform _checkPointsTransform;
         private ISaveLoadService _saveLoadService;
 
+        public event Action OnInitComplite;
+
         [Inject]
-        public CheckPointController(SignalBus signalBus, [Inject(Id = "CheckPoints")] Transform checkPoints, ISaveLoadService saveLoadService)
+        public CheckPointController(SignalBus signalBus, [Inject(Id = "CheckPoints")] Transform checkPointsTransform, ISaveLoadService saveLoadService)
         {
             _signalBus = signalBus;
-            _checkPoints = checkPoints;
+            _checkPointsTransform = checkPointsTransform;
             _saveLoadService = saveLoadService;
 
             _signalBus.Subscribe<GameSavedSignal>(SaveAll);
@@ -26,19 +31,18 @@ namespace Assets.Scripts.Services.Save.CheckPoints
 
         public void Initialize()
         {
-            Debug.Log($"INIT CHECK POINT CONTROLLER");
-
-            _checkpointsDictionary = new Dictionary<string, Checkpoint>();
+            _checkPoints = new List<Checkpoint>();
 
             //Если сохранения не было мы должны создать новое, если есть то добавить...
 
-            for (int i = 0; i < _checkPoints.childCount; i++)
+            for (int i = 0; i < _checkPointsTransform.childCount; i++)
             {
-                Checkpoint checkpoint = _checkPoints.GetChild(i).GetComponent<Checkpoint>();
-                _checkpointsDictionary.Add(checkpoint.CheckpointId, checkpoint); // Тут вопрос так ли это делается....
+                Checkpoint checkpoint = _checkPointsTransform.GetChild(i).GetComponent<Checkpoint>();
+                _checkPoints.Add(checkpoint);
             }
 
-            //_saveLoadService.CurrentSave.CheckpointData.CheckpointsDictionary = _checkpointsDictionary;
+            _checkpointsCount = _checkPoints.Count;
+            OnInitComplite?.Invoke();
         }
 
         public void AInitialize(Action onComplete)
@@ -56,26 +60,31 @@ namespace Assets.Scripts.Services.Save.CheckPoints
 
         private void SaveAll()
         {
-            Dictionary<string, Checkpoint> currentSave = _saveLoadService.CurrentSave.CheckpointData.CheckpointsDictionary;
+            //Здесь можно лучше придумать. Мы каждый раз всё с нуля перезаписываем... 
+            //100% не имеет смысла. Пускай пока так будет.
+            _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList = new List<CheckpointSaveData>();
 
-            foreach (string key in currentSave.Keys)
+            for (int i = 0; i < _checkpointsCount; i++)
             {
-                currentSave[key] = _checkpointsDictionary[key];
+                CheckpointSaveData saveCheckpoint = _checkPoints[i].Save();
+                _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList.Add(saveCheckpoint);
             }
-
-            //_saveLoadService.CurrentSave.CheckpointData.CheckpointsDictionary = _checkpointsDictionary;
         }
 
         private void LoadAll()
         {
-            Dictionary<string, Checkpoint> currentSave = _saveLoadService.CurrentSave.CheckpointData.CheckpointsDictionary;
-
-            foreach(Checkpoint checkpoint in currentSave.Values)
+            if (_saveLoadService.HasSave() && _saveLoadService.IsFirstLoad() == false)
             {
-                _checkpointsDictionary[checkpoint.CheckpointId].Load(checkpoint); // Выгялидит так себе, но пускай так пока будет...
+                for (int i = 0; i < _checkpointsCount; i++)
+                {
+                    CheckpointSaveData loadCheckpoint = _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList[i];
+                    _checkPoints[i].Load(loadCheckpoint);
+                }
+            }
+            else
+            {
+
             }
         }
-
-
     }
 }

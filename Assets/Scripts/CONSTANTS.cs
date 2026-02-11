@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Assets.Scripts
+﻿namespace Assets.Scripts
 {
     public static class CONSTANTS
     {
-        public const string LOAD = "Load";
+        public const string LOAD = "Loader";
         public const string MENU = "Menu";
+        public const string LEVEL1 = "Level1";
     }
 }
