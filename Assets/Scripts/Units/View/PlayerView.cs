@@ -1,4 +1,4 @@
-using Assets.Scripts.Services.Pause;
+using Assets.Scripts.Utilites;
 using ECM2;
 using System;
 using UnityEngine;
@@ -82,7 +82,7 @@ public class PlayerView : MonoBehaviour, IPause
         IsPause = true;
     }
 
-    public void UnPause()
+    public void Continue()
     {
         _moveDirection = Vector3.zero;
         CharacterView.Pause(false);

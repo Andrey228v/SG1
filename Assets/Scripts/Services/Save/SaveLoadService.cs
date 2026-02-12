@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.GameInstallers.Signals;
 using Assets.Scripts.Units;
 using System;
-using UnityEditor;
 using UnityEngine;
 using Zenject;
 
@@ -93,17 +92,17 @@ namespace Assets.Scripts.Services.Save
 
         //Загрузка прогресса... 
         //Надо ли это пока не знаю...
-        //public PlayerProgress LoadProgress()
-        //{
-        //    if (HasSave() == false)
-        //    {
-        //        return new PlayerProgress();
-        //    }
+        public PlayerProgress LoadProgress()
+        {
+            if (HasSave() == false)
+            {
+                return new PlayerProgress();
+            }
 
-        //    _isFirstLoad = false;
-        //    string json = PlayerPrefs.GetString(SAVE_KEY_PROGRESS);
-        //    return JsonUtility.FromJson<PlayerProgress>(json);
-        //}
+            _isFirstLoad = false;
+            string json = PlayerPrefs.GetString(SAVE_KEY_PROGRESS);
+            return JsonUtility.FromJson<PlayerProgress>(json);
+        }
 
         public void LoadGame()
         {

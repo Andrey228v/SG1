@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.PlayerSettings;
-using Assets.Scripts.Services.Pause;
 using Assets.Scripts.StateMachineUnit;
+using Assets.Scripts.Utilites;
 using System;
 using UnityEngine;
 using Zenject;
@@ -77,10 +77,10 @@ namespace Assets.Scripts.Units
             PlayerStateMachine.Pause();
         }
 
-        public void UnPause()
+        public void Continue()
         {
-            PlayerView.UnPause();
-            PlayerStateMachine.UnPause();
+            PlayerView.Continue();
+            PlayerStateMachine.Continue();
         }
 
         public class Factory : PlaceholderFactory<Unit> { }

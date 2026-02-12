@@ -22,18 +22,10 @@ public class ProjectInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
         Container.Bind<PlayerProgress>().AsSingle().NonLazy();
         Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
-        //Container.Bind<GameStateMachine>().AsSingle().NonLazy();
-
-        //TEST
-        Container.BindInterfacesAndSelfTo<Test1Serv>().AsSingle(); // test
-        Container.BindInterfacesAndSelfTo<Test2Serv>().AsSingle(); // test
 
         // Сервисы
         Container.BindInterfacesAndSelfTo<InitService>().AsSingle(); // test
         Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
-
-        //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle().CopyIntoAllSubContainers();
-        //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<LoadGameState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MenuState>().AsSingle();

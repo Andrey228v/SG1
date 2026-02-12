@@ -981,6 +981,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278898817}
   m_CullTransparentMesh: 1
+--- !u!114 &284508167 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5485672621072052592, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+  m_PrefabInstance: {fileID: 7278364550495121207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &296520950
 GameObject:
   m_ObjectHideFlags: 0
@@ -5032,6 +5043,17 @@ Transform:
   - {fileID: 204809202}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &986373502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823649426492004480, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+  m_PrefabInstance: {fileID: 7278364550495121207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1009064169
 GameObject:
   m_ObjectHideFlags: 0
@@ -12123,6 +12145,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2079795189}
     m_Modifications:
+    - target: {fileID: 2919974169289519221, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+      propertyPath: _timer
+      value: 
+      objectReference: {fileID: 284508167}
+    - target: {fileID: 2919974169289519221, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+      propertyPath: _coinsCounter
+      value: 
+      objectReference: {fileID: 986373502}
     - target: {fileID: 6508421176289326585, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

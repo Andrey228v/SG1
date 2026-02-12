@@ -1,12 +1,13 @@
 ﻿using Assets.Scripts.Debugs;
 using Assets.Scripts.Services.Save;
 using Assets.Scripts.Units;
+using Assets.Scripts.Utilites;
 using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IPause
     {
         [Header("Referens:")]
         [SerializeField] private InputReader _inputReader;
@@ -140,6 +141,18 @@ namespace Assets.Scripts
             ////_health.ResetHealth();
             //_signalBus.Fire(new PlayerRespawnedSignal());
         }
+
+        public void Pause()
+        {
+
+        }
+
+        public void Continue()
+        {
+            
+        }
+
+        
 
         //public class Factory : PlaceholderFactory<PlayerController> { }
     }

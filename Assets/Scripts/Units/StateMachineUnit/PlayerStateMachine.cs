@@ -1,7 +1,6 @@
-﻿using Assets.Scripts.PlayerSettings;
-using Assets.Scripts.Services.Pause;
-using Assets.Scripts.Units;
+﻿using Assets.Scripts.Units;
 using Assets.Scripts.Units.States;
+using Assets.Scripts.Utilites;
 using System;
 using UnityEngine;
 
@@ -101,7 +100,7 @@ namespace Assets.Scripts.StateMachineUnit
             _pause = true;
         }
 
-        public void UnPause()
+        public void Continue()
         {
             _pause = false;
         }

@@ -101,10 +101,7 @@ public class SceneInstaller : MonoInstaller
         Container.BindInstance(_cameraController).AsSingle();
 
         Container.Bind<InitializibleController>().AsSingle().NonLazy();
-
-        // TEST
-        Container.BindInterfacesAndSelfTo<Test3Serv>().AsSingle(); // test
-
+        Container.Bind<PauseController>().AsSingle().NonLazy();
     }
 
     private void InstallFactory()
