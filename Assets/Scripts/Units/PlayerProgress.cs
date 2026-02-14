@@ -55,6 +55,6 @@ namespace Assets.Scripts.Units
         public bool IsFullscreen = true;
         public Resolution? TargetResolution = null;
         public bool VSyncEnabled = true;
-        public int TargetFPS = 60;
+        public int TargetFPS = 30;
     }
 }

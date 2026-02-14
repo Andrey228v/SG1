@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Utilites;
 using System.Collections.Generic;
+using UnityEngine;
 using Zenject;
 
 namespace Assets.Scripts.Services
@@ -16,6 +17,8 @@ namespace Assets.Scripts.Services
 
         public void AllPause() 
         {
+            //Time.timeScale = 0f;
+
             foreach (IPause pauseObject in _pauseObjectsList)
             {
                 pauseObject.Pause();
@@ -24,6 +27,9 @@ namespace Assets.Scripts.Services
 
         public void AllContinue()
         {
+
+            //Time.timeScale = 1f;
+
             foreach (IPause pauseObject in _pauseObjectsList)
             {
                 pauseObject.Continue();

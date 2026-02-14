@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Utilites;
+using ECM2;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
     [RequireComponent(typeof(Animator))]
-    public class AnimatorPersonController : MonoBehaviour
+    public class AnimatorPersonController : IPause
     {
         private Animator _animator;
 
@@ -13,15 +15,17 @@ namespace Assets.Scripts
         private const string IsFalling_b = "IsFalling_b";
 
         private Vector3 _moveDirection;
+        private float _animationCurrentSpeed;
 
-        private void Awake()
+        public AnimatorPersonController(Character character)
         {
-            _animator = GetComponent<Animator>();
+            _animator = character.animator;
         }
 
         public void SetStatic(bool isStatic)
         {
             _animator.SetBool(StaticIdle, isStatic);
+            _animationCurrentSpeed = _animator.speed;
         }
 
         public void SetMove(bool isMove)
@@ -38,16 +42,29 @@ namespace Assets.Scripts
             }
 
             _animator.SetFloat(Speed, speed);
+            _animationCurrentSpeed = _animator.speed;
         }
 
         public void SetJump(bool isJump)
         {
             _animator.SetBool(IsJumping, isJump);
+            _animationCurrentSpeed = _animator.speed;
         }
 
         public void SetFall(bool isFall)
         {
             _animator.SetBool(IsFalling_b, isFall);
+            _animationCurrentSpeed = _animator.speed;
+        }
+
+        public void Continue()
+        {
+            _animator.speed = _animationCurrentSpeed;
+        }
+
+        public void Pause()
+        {
+            _animator.speed = 0;
         }
     }
 }

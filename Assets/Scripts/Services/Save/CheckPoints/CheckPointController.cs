@@ -73,7 +73,7 @@ namespace Assets.Scripts.Services.Save.CheckPoints
 
         private void LoadAll()
         {
-            if (_saveLoadService.HasSave() && _saveLoadService.IsFirstLoad() == false)
+            if (_saveLoadService.HasSave() && _saveLoadService.IsFirstLoad() == false) // ТУТ ОШИБКА ВЫЛЕТАЕТ ПУСТОЙ СПИСОК ПРИХОДИТ ПРИ ПЕРЕЗАПУСКЕ НАДО ПОДУМАТЬ....
             {
                 for (int i = 0; i < _checkpointsCount; i++)
                 {

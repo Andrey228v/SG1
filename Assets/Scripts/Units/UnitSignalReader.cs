@@ -7,31 +7,27 @@ using Zenject;
 
 namespace Assets.Scripts.Units
 {
-    [RequireComponent(typeof(PlayerView), typeof(AnimatorPersonController))]
-    [RequireComponent(typeof(PlayerStateMachine), typeof(SignalReader))]
-    public class Unit : MonoBehaviour, IPause
+    //[RequireComponent(typeof(PlayerView), typeof(AnimatorPersonController))]
+    //[RequireComponent(typeof(PlayerStateMachine), typeof(SignalReader))]
+    //public class Unit : MonoBehaviour, IPause
+    public class UnitSignalReader : IPause
     {
-        [field: SerializeField] public UnitSetting Settings { get; private set; }
+        public UnitSetting Settings { get; private set; }
         public PlayerView PlayerView { get; private set; }
         public AnimatorPersonController AnimatorPersonController { get; private set; }
-        public PlayerStateMachine PlayerStateMachine { get; private set; }
+        public UnitStateMachine UnitStateMachine { get; private set; }
         public SignalReader SignalReader { get; private set; }
 
         public event Action<Vector3> OnChangePosition;
         public event Action<bool> OnJumpButtonDown;
         public event Action<bool> OnJumpButtonUp;
 
-        public void Awake()
+        public UnitSignalReader(PlayerView playerView, AnimatorPersonController animatorPersonController, UnitStateMachine unitStateMachine, SignalReader signalReader)
         {
-            PlayerView = GetComponent<PlayerView>();
-            AnimatorPersonController = GetComponent<AnimatorPersonController>();
-            PlayerStateMachine = GetComponent<PlayerStateMachine>();
-            SignalReader = GetComponent<SignalReader>();
-        }
-
-        public void Initialize()
-        {
-
+            PlayerView = playerView;
+            AnimatorPersonController = animatorPersonController;
+            UnitStateMachine = unitStateMachine;
+            SignalReader = signalReader;
         }
 
         public void ProcessSignalDirection(Vector3 direction)
@@ -74,15 +70,15 @@ namespace Assets.Scripts.Units
         public void Pause()
         {
             PlayerView.Pause();
-            PlayerStateMachine.Pause();
+            UnitStateMachine.Pause();
         }
 
         public void Continue()
         {
             PlayerView.Continue();
-            PlayerStateMachine.Continue();
+            UnitStateMachine.Continue();
         }
 
-        public class Factory : PlaceholderFactory<Unit> { }
+        public class Factory : PlaceholderFactory<UnitSignalReader> { }
     }
 }

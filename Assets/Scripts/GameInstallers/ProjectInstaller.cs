@@ -15,7 +15,7 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 45;
 
         SignalBusInstaller.Install(Container);
 

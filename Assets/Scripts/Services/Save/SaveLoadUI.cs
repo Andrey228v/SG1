@@ -27,7 +27,6 @@ namespace Assets.Scripts.Services.Save
             _saveButton.onClick.AddListener(SaveGame);
             _loadButton.onClick.AddListener(LoadGame);
             _deleteButton.onClick.AddListener(DeleteSave);
-            _testButton.onClick.AddListener(TestInvoke);
 
             _signalBus.Subscribe<CheckpointActivatedSignal>(UpdateUI);
         }
@@ -37,7 +36,6 @@ namespace Assets.Scripts.Services.Save
             _saveButton.onClick.RemoveListener(SaveGame);
             _loadButton.onClick.RemoveListener(LoadGame);
             _deleteButton.onClick.RemoveListener(DeleteSave);
-            _testButton.onClick.RemoveListener(TestInvoke);
 
             _signalBus.Unsubscribe<CheckpointActivatedSignal>(UpdateUI);
         }
@@ -61,10 +59,10 @@ namespace Assets.Scripts.Services.Save
             UpdateUI();
         }
 
-        public void TestInvoke()
-        {
-            _playerController.Test();
-        }
+        //public void TestInvoke()
+        //{
+        //    _playerController.Test();
+        //}
 
         //public void NewGame()
         //{

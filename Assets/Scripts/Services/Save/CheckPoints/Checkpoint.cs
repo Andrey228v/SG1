@@ -1,6 +1,6 @@
 ﻿using Assets.Scripts.GameInstallers.Signals;
-using Assets.Scripts.Units;
 using Assets.Scripts.Utilites;
+using ECM2;
 using UnityEngine;
 using Zenject;
 
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Services.Save
                 return;
             }
 
-            if (other.GetComponent<Unit>() == false)
+            if (other.GetComponent<Player>() == false)
             {
                 return;
             }

@@ -28,12 +28,12 @@ namespace Assets.Scripts.Debugs
         [SerializeField] private TextMeshProUGUI _textUnitIsCanDoubleJump;
         [SerializeField] private TextMeshProUGUI _textUnitIsJumpButtonUp;
 
-        private Unit _unit;
+        private UnitSignalReader _unit;
 
         private void Init()
         {
             _unit.PlayerView.OnDirectionChanged += SetDirection;
-            _unit.PlayerStateMachine.OnChangedState += SetTextUnitState;
+            _unit.UnitStateMachine.OnChangedState += SetTextUnitState;
             _unit.PlayerView.OnForceChanged += SetForce;
             _unit.PlayerView.OnIsGround += SetIsGround;
             _unit.PlayerView.OnIsFall += SetIsFall;
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Debugs
         private void OnDisable()
         {
             _unit.PlayerView.OnDirectionChanged -= SetDirection;
-            _unit.PlayerStateMachine.OnChangedState -= SetTextUnitState;
+            _unit.UnitStateMachine.OnChangedState -= SetTextUnitState;
             _unit.PlayerView.OnForceChanged -= SetForce;
             _unit.PlayerView.OnIsGround -= SetIsGround;
             _unit.PlayerView.OnIsFall -= SetIsFall;
@@ -66,10 +66,10 @@ namespace Assets.Scripts.Debugs
             _unit.OnJumpButtonUp -= SetIsJumpButtonUp;
         }
 
-        public void SetUnit(Unit unit)
+        public void SetUnit(UnitSignalReader unit)
         {
             _unit = unit;
-            Init();
+            //Init();
 
         }
 

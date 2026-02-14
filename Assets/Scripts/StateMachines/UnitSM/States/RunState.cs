@@ -1,14 +1,14 @@
-﻿using Assets.Scripts.StateMachineUnit;
-using UnityEngine;
+﻿using Assets.Scripts.Units;
+using Assets.Scripts.Units.States;
 
-namespace Assets.Scripts.Units.States
+namespace Assets.Scripts.StateMachineUnit
 {
-    public class StayState : IStateUnit
+    public class RunState : IStateUnit
     {
-        private Unit _unit;
-        private PlayerStateMachine _playerStateMachine;
+        private UnitSignalReader _unit;
+        private UnitStateMachine _playerStateMachine;
 
-        public StayState(PlayerStateMachine playerStateMachine, Unit unit)
+        public RunState(UnitStateMachine playerStateMachine, UnitSignalReader unit)
         {
             _unit = unit;
             _playerStateMachine = playerStateMachine;
@@ -16,7 +16,7 @@ namespace Assets.Scripts.Units.States
 
         public void Enter()
         {
-            _unit.AnimatorPersonController.SetStatic(true);
+            _unit.AnimatorPersonController.SetMove(true);
         }
 
         public void Exit()
@@ -40,10 +40,10 @@ namespace Assets.Scripts.Units.States
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }
-            else if (_unit.SignalReader.IsMove == true)
+            else if (_unit.SignalReader.IsMove == false)
             {
-                _unit.AnimatorPersonController.SetStatic(false);
-                _playerStateMachine.SelectState(UnitStateType.Run);
+                _unit.AnimatorPersonController.SetMove(false);
+                _playerStateMachine.SelectState(UnitStateType.Stay);
             }
             else if (_unit.PlayerView.CharacterView.IsFalling())
             {

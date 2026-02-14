@@ -877,6 +877,8 @@ MonoBehaviour:
   _menuButton: {fileID: 503210074735019793}
   _loadButton: {fileID: 55595411306547656}
   _soundButton: {fileID: 7003465466779477910}
+  _coinsCounter: {fileID: 4823649426492004480}
+  _timer: {fileID: 5485672621072052592}
 --- !u!1 &7131543306411057384
 GameObject:
   m_ObjectHideFlags: 0
