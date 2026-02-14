@@ -1,27 +1,26 @@
 ﻿using Assets.Scripts.StateMachineUnit;
-using UnityEngine;
 
 namespace Assets.Scripts.Units.States
 {
     public class FallState : IStateUnit
     {
-        private Unit _unit;
-        private PlayerStateMachine _playerStateMachine;
+        private UnitSignalReader _unitSignalReader;
+        private UnitStateMachine _playerStateMachine;
 
-        public FallState(PlayerStateMachine playerStateMachine, Unit unit)
+        public FallState(UnitStateMachine playerStateMachine, UnitSignalReader unitSignalReader)
         {
-            _unit = unit;
+            _unitSignalReader = unitSignalReader;
             _playerStateMachine = playerStateMachine;
         }
 
         public void Enter()
         {
-            _unit.AnimatorPersonController.SetFall(true);
+            _unitSignalReader.AnimatorPersonController.SetFall(true);
         }
 
         public void Exit()
         {
-            _unit.AnimatorPersonController.SetFall(false);
+            _unitSignalReader.AnimatorPersonController.SetFall(false);
         }
 
         public void FixedUpdate()
@@ -35,11 +34,11 @@ namespace Assets.Scripts.Units.States
 
         public void CheckSwitchStates()
         {
-            if (_unit.PlayerView.CharacterView.IsOnGround())
+            if (_unitSignalReader.PlayerView.CharacterView.IsOnGround())
             {
                 _playerStateMachine.SelectState(UnitStateType.Stay);
             }
-            else if (_unit.SignalReader.GetIsJumpButtonDown() == true)
+            else if (_unitSignalReader.SignalReader.GetIsJumpButtonDown() == true)
             {
                 _playerStateMachine.SelectState(UnitStateType.Jump);
             }

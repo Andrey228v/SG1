@@ -17,7 +17,6 @@ namespace Assets.Scripts.StateMachines.MenuSM
     public class MenuStateMachine
     {
         private IMenuState _nextState;
-        
         private readonly DiContainer _container;
 
         public IMenuState CurrentState { get; private set; }

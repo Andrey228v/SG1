@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using Zenject;
 
 namespace Assets.Scripts.Units
 {
-    public class SignalReader : MonoBehaviour
+    public class SignalReader : IInitializable
     {
         public bool IsMove {  get; private set; }
 
@@ -15,7 +15,7 @@ namespace Assets.Scripts.Units
         private bool _isDown = false;
         private bool _isUp = true;
 
-        private void Start()
+        public void Initialize()
         {
             IsMove = false;
             IsJump = false;

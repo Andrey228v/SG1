@@ -981,6 +981,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278898817}
   m_CullTransparentMesh: 1
+--- !u!114 &284508167 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5485672621072052592, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+  m_PrefabInstance: {fileID: 7278364550495121207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &296520950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1531,7 +1542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a0cd44790177b04b86d564908ba9d91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 6904717228668791317, guid: c9199760bc891b8429a05dc66cf26105, type: 3}
+  _playerPrefab: {fileID: 1688571644223161820, guid: c9199760bc891b8429a05dc66cf26105, type: 3}
   _playerSpawnPoint: {fileID: 1887187916}
   _cameraController: {fileID: 530132455}
   _unitDebug: {fileID: 2079795185}
@@ -2007,6 +2018,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cinemachineBrain: {fileID: 330585548}
+  _inputAxisController: {fileID: 1611503925}
+  _orbitalFollow: {fileID: 1611503934}
   <CameraCinemachine>k__BackingField: {fileID: 1611503928}
 --- !u!1 &543801828
 GameObject:
@@ -2709,7 +2722,6 @@ GameObject:
   - component: {fileID: 619804146}
   - component: {fileID: 619804150}
   - component: {fileID: 619804152}
-  - component: {fileID: 619804153}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -2846,21 +2858,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5a8e5f8689790d4083e5239bc1c48fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &619804153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 619804145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89b5f7e2c133de8458f7b8241066ea2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inputReader: {fileID: 11400000, guid: c3991bb515466074da55735d6db4976b, type: 2}
-  _testPosition: {fileID: 892133879}
-  _testObj: {fileID: 1103822091}
 --- !u!43 &647819033
 Mesh:
   m_ObjectHideFlags: 0
@@ -5032,6 +5029,17 @@ Transform:
   - {fileID: 204809202}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &986373502 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823649426492004480, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+  m_PrefabInstance: {fileID: 7278364550495121207}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1009064169
 GameObject:
   m_ObjectHideFlags: 0
@@ -11561,7 +11569,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fed359302550144fa75d6612a0653d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerController: {fileID: 619804153}
   _saveButton: {fileID: 1237973761}
   _loadButton: {fileID: 1641891892}
   _deleteButton: {fileID: 2124063346}
@@ -12123,6 +12130,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2079795189}
     m_Modifications:
+    - target: {fileID: 2919974169289519221, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+      propertyPath: _timer
+      value: 
+      objectReference: {fileID: 284508167}
+    - target: {fileID: 2919974169289519221, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
+      propertyPath: _coinsCounter
+      value: 
+      objectReference: {fileID: 986373502}
     - target: {fileID: 6508421176289326585, guid: 2cf20da285fc4b64aa09eba6b0005daa, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

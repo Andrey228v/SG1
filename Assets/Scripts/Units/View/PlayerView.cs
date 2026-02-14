@@ -1,9 +1,10 @@
-using Assets.Scripts.Services.Pause;
+using Assets.Scripts.Utilites;
 using ECM2;
 using System;
 using UnityEngine;
+using Zenject;
 
-public class PlayerView : MonoBehaviour, IPause
+public class PlayerView : ITickable, IPause
 {
     public Character CharacterView { get; private set; }
 
@@ -19,12 +20,12 @@ public class PlayerView : MonoBehaviour, IPause
 
     public bool IsPause = false;
 
-    private void Awake()
+    public PlayerView(Character character)
     {
-        CharacterView = GetComponent<Character>();
+        CharacterView = character;
     }
 
-    private void Update()
+    public void Tick()
     {
         if (IsPause == false)
         {
@@ -82,7 +83,7 @@ public class PlayerView : MonoBehaviour, IPause
         IsPause = true;
     }
 
-    public void UnPause()
+    public void Continue()
     {
         _moveDirection = Vector3.zero;
         CharacterView.Pause(false);

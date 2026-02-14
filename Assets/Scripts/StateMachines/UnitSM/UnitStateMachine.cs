@@ -1,45 +1,37 @@
-﻿using Assets.Scripts.PlayerSettings;
-using Assets.Scripts.Services.Pause;
-using Assets.Scripts.Units;
-using Assets.Scripts.Units.States;
+﻿using Assets.Scripts.Units.States;
+using Assets.Scripts.Utilites;
 using System;
-using UnityEngine;
+using Zenject;
 
 namespace Assets.Scripts.StateMachineUnit
 {
 
     //1) ОНА УЖЕ НЕ ИСПОЛЬЗУЕТСЯ ИЗ-ЗА ВСТРЕННОЙ СТЕЙТ МАШИНЫ CHARACTER CONTROLLER...
     //2) ТЕСТЫ ПОКАЗАЛИ ЧТО ВСТРОЕННАЯ МАШИНА НЕ УДОБНАЯ И В НЕЙ РАЗБИРАТЬСЯ ДОЛГО, ПОЭТОМУ ОСТАВЛЯЕМ НАШУ...
-    public class PlayerStateMachine : MonoBehaviour, IPause
+    public class UnitStateMachine : ITickable, IFixedTickable, IInitializable, IPause
     {
-        private Unit _unit;
-        private StayState _stayState;
-        private RunState _runState;
-        private JumpState _jumpState;
-        private FallState _fallState;
+        private IStateUnit _nextState;
         private bool _pause = false;
+        private readonly DiContainer _container;
 
         public event Action<string> OnChangedState;
 
         public IStateUnit CurrentState { get; private set; }
+        public IStateUnit PreviousState { get; private set; }
 
-        private void Awake()
+        public UnitStateMachine(DiContainer container)
         {
-            _unit = GetComponent<Unit>();
-
-            _stayState = new StayState(this, _unit);
-            _runState = new RunState(this, _unit);
-            _jumpState = new JumpState(this, _unit);
-            _fallState = new FallState(this, _unit);
+            _container = container;
+            PreviousState = null;
         }
 
-        private void Start()
+        public void Initialize()
         {
-            CurrentState = _stayState;
+            CurrentState = _container.Resolve<StayState>();
             SelectState(UnitStateType.Stay);
         }
 
-        private void Update()
+        public void Tick()
         {
             if (_pause == false)
             {
@@ -47,7 +39,7 @@ namespace Assets.Scripts.StateMachineUnit
             }
         }
 
-        private void FixedUpdate()
+        public void FixedTick()
         {
             if (_pause == false)
             {
@@ -57,6 +49,7 @@ namespace Assets.Scripts.StateMachineUnit
 
         private void ChangeState(IStateUnit newState)
         {
+            PreviousState = CurrentState;
             CurrentState?.Exit();
             CurrentState = newState;
             CurrentState?.Enter();
@@ -67,31 +60,30 @@ namespace Assets.Scripts.StateMachineUnit
             switch (stateType)
             {
                 case UnitStateType.Stay:
-                    //Debug.Log(UnitStateType.Stay.ToString());
-                    ChangeState(_stayState);
+                    _nextState = _container.Resolve<StayState>();
+                    ChangeState(_nextState);
                     OnChangedState?.Invoke(UnitStateType.Stay.ToString());
                     break;
 
                 case UnitStateType.Run:
-                    //Debug.Log(UnitStateType.Run.ToString());
-                    ChangeState(_runState);
+                    _nextState = _container.Resolve<RunState>();
+                    ChangeState(_nextState);
                     OnChangedState?.Invoke(UnitStateType.Run.ToString());
                     break;
 
                 case UnitStateType.Jump:
-                    //Debug.Log(UnitStateType.Jump.ToString());
-                    ChangeState(_jumpState);
+                    _nextState = _container.Resolve<JumpState>();
+                    ChangeState(_nextState);
                     OnChangedState?.Invoke(UnitStateType.Jump.ToString());
                     break;
 
                 case UnitStateType.Fall:
-                    //Debug.Log(UnitStateType.Fall.ToString());
-                    ChangeState(_fallState);
+                    _nextState = _container.Resolve<FallState>();
+                    ChangeState(_nextState);
                     OnChangedState?.Invoke(UnitStateType.Fall.ToString());
                     break;
 
                 default:
-                    //Console.WriteLine("None State");
                     break;
             }
         }
@@ -101,7 +93,7 @@ namespace Assets.Scripts.StateMachineUnit
             _pause = true;
         }
 
-        public void UnPause()
+        public void Continue()
         {
             _pause = false;
         }

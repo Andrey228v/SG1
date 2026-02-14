@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Interfases
 {
-    public interface IState<T> where T : Component
+    public interface IState
     {
         public void Enter();
 

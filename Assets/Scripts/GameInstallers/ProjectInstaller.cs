@@ -15,25 +15,17 @@ public class ProjectInstaller : MonoInstaller
 
     public override void InstallBindings()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 45;
 
         SignalBusInstaller.Install(Container);
 
         Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle();
         Container.Bind<PlayerProgress>().AsSingle().NonLazy();
         Container.Bind<GameSettings>().FromInstance(_gameSettings).AsSingle();
-        //Container.Bind<GameStateMachine>().AsSingle().NonLazy();
-
-        //TEST
-        Container.BindInterfacesAndSelfTo<Test1Serv>().AsSingle(); // test
-        Container.BindInterfacesAndSelfTo<Test2Serv>().AsSingle(); // test
 
         // Сервисы
         Container.BindInterfacesAndSelfTo<InitService>().AsSingle(); // test
         Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
-
-        //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle().CopyIntoAllSubContainers();
-        //Container.BindInterfacesAndSelfTo<StateMachineGame>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<LoadGameState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MenuState>().AsSingle();

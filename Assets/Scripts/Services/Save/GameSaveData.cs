@@ -11,12 +11,6 @@ namespace Assets.Scripts.Services.Save
         public DateTime SaveTime; 
         public PlayerSaveData playerSaveData = new PlayerSaveData();
         public CheckpointsSaveDataList checkpointsSaveData = new CheckpointsSaveDataList();
-
-        public void RefreshSave()
-        {
-
-        }
-
     }
 
     [Serializable]
