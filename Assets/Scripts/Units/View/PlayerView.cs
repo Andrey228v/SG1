@@ -11,6 +11,7 @@ public class PlayerView : ITickable, IPause
     private Vector3 _moveDirection = Vector3.zero;
     private float _rotateSpeed;
     private Vector3 _currentMovment;
+    private IAudioService _audioService;
 
     public event Action<Vector3> OnDirectionChanged;
     public event Action<Vector3> OnForceChanged;
@@ -20,9 +21,10 @@ public class PlayerView : ITickable, IPause
 
     public bool IsPause = false;
 
-    public PlayerView(Character character)
+    public PlayerView(Character character, IAudioService audioService)
     {
         CharacterView = character;
+        _audioService = audioService;
     }
 
     public void Tick()
@@ -51,6 +53,7 @@ public class PlayerView : ITickable, IPause
     public void Jump()
     {
         OnIsJumping?.Invoke(true);
+        _audioService.PlaySound(SoundType.PlayerJump);
         CharacterView.Jump();
     }
 

@@ -16,6 +16,7 @@ namespace Assets.Scripts
         private Transform _spawnPoint;
         private UnitDebug _unitDebug;
         private InputReader _inputReader;
+        private IAudioService _audioService;
 
         private ISaveLoadService _saveLoadService;
         private SignalBus _signalBus;
@@ -26,7 +27,8 @@ namespace Assets.Scripts
             SignalBus signalBus,
             UnitDebug unitDebug,
             UnitSignalReader unitSignalReader,
-            InputReader inputReader
+            InputReader inputReader,
+            IAudioService audioService
             )
         {
             _cameraController = cameraController;
@@ -36,6 +38,7 @@ namespace Assets.Scripts
             _unitSignalReader = unitSignalReader;
             _spawnPoint = spawnPoint;
             _inputReader = inputReader;
+            _audioService = audioService;
         }
 
         public void Initialize()

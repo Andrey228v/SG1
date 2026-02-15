@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.GameInstallers.Signals;
 using Assets.Scripts.UI._1_MenuWindow;
+using Assets.Scripts.Utilites;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,9 +10,9 @@ namespace Assets.Scripts.UI.Menu
 {
     public class MainMenuPanel : MonoBehaviour, IMainMenuPanel
     {
-        [Header("Основные элементы")]
-        [SerializeField] private CanvasGroup _canvasGroup;
-        [SerializeField] private RectTransform _panelTransform;
+        //[Header("Основные элементы")]
+        //[SerializeField] private CanvasGroup _canvasGroup;
+        //[SerializeField] private RectTransform _panelTransform;
 
         [Header("Текст")]
         [SerializeField] private TMP_Text _titleText;
@@ -25,14 +26,21 @@ namespace Assets.Scripts.UI.Menu
         [SerializeField] private Button _backButton;
 
         private SignalBus _signalBus;
+        private IAudioService _audioService;
 
         public bool IsVisible { get; private set; }
 
         [Inject]
-        public void Construct(SignalBus signalBus)
+        public void Construct(SignalBus signalBus, IAudioService audioService)
         {
             _signalBus = signalBus;
+            _audioService = audioService;
             SetupButtons();
+        }
+
+        private void Start()
+        {
+            _audioService.PlayMusic(SoundType.MenuMusic);
         }
 
         private void SetupButtons() 
@@ -42,6 +50,7 @@ namespace Assets.Scripts.UI.Menu
                 _startButton.onClick.AddListener(() =>
                 {
                     _signalBus.Fire(new OnStartButtonClickedSignal());
+                    _audioService.PlayUISound(SoundType.ButtonClick);
                 });
             }
 
@@ -50,6 +59,7 @@ namespace Assets.Scripts.UI.Menu
                 _continueButton.onClick.AddListener(() =>
                 {
                     _signalBus.Fire(new OnContinueButtonClickedSignal());
+                    _audioService.PlayUISound(SoundType.ButtonClick);
                 });
             }
 
@@ -58,6 +68,7 @@ namespace Assets.Scripts.UI.Menu
                 _settingsButton.onClick.AddListener(() =>
                 {
                     _signalBus.Fire(new OnSettingsButtonClickedSignal());
+                    _audioService.PlayUISound(SoundType.ButtonClick);
                 });
             }
 
@@ -66,6 +77,7 @@ namespace Assets.Scripts.UI.Menu
                 _exitButton.onClick.AddListener(() =>
                 {
                     _signalBus.Fire(new OnExitButtonClickedSignal());
+                    _audioService.PlayUISound(SoundType.ButtonClick);
                 });
             }
         }
