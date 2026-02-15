@@ -2,16 +2,20 @@ using Assets.Scripts;
 using Assets.Scripts.GameInstallers.Signals;
 using Assets.Scripts.GameSM;
 using Assets.Scripts.GameSM.States;
-using Assets.Scripts.GameSM.Test;
+using Assets.Scripts.Services.Audio;
 using Assets.Scripts.Services.Initializer;
 using Assets.Scripts.Services.Save;
 using Assets.Scripts.Units;
+using Assets.Scripts.Utilites;
 using UnityEngine;
+using UnityEngine.Audio;
 using Zenject;
 
 public class ProjectInstaller : MonoInstaller
 {
     [SerializeField] private GameSettings _gameSettings;
+    [SerializeField] private AudioSettingsSO _audioSettings;
+    [SerializeField] private AudioMixer _audioMixer;
 
     public override void InstallBindings()
     {
@@ -46,5 +50,16 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<OnGameLoaded>();
         Container.DeclareSignal<OnMenuLoadGameClickedSignal>();
         Container.DeclareSignal<OnCheckPointActivated>();
+
+        //Audio
+        Container.BindInstance(_audioSettings).AsSingle();
+
+        // Регистрируем AudioMixer (опционально)
+        Container.BindInstance(_audioMixer).AsSingle();
+
+
+        // Регистрируем AudioService как интерфейс
+        Container.Bind<IAudioService>().To<AudioService>().AsSingle().NonLazy(); // Создастся сразу при старте
+
     }
 }

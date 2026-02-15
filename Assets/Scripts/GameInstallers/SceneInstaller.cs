@@ -119,7 +119,7 @@ public class SceneInstaller : MonoInstaller
         Container.BindInterfacesAndSelfTo<RunState>().AsSingle();
         Container.BindInterfacesAndSelfTo<StayState>().AsSingle();
         Container.BindInterfacesAndSelfTo<PlayerView>().AsSingle();
-        Container.Bind<AnimatorPersonController>().AsSingle();
+        Container.BindInterfacesAndSelfTo<AnimatorPersonController>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<CheckPointController>().AsSingle();
         Container.BindInstance(_cameraController).AsSingle();

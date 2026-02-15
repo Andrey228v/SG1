@@ -1549,6 +1549,7 @@ MonoBehaviour:
   _checkPoints: {fileID: 1026977544}
   _gameInterfacePanel: {fileID: 1436548490}
   _gameMenuPanel: {fileID: 1765081397}
+  _inputReader: {fileID: 11400000, guid: c3991bb515466074da55735d6db4976b, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
