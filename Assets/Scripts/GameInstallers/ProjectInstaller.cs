@@ -30,6 +30,7 @@ public class ProjectInstaller : MonoInstaller
         // Сервисы
         Container.BindInterfacesAndSelfTo<InitService>().AsSingle(); // test
         Container.BindInterfacesAndSelfTo<SaveLoadService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<SaveLoadSettingsService>().AsSingle();
 
         Container.BindInterfacesAndSelfTo<LoadGameState>().AsSingle();
         Container.BindInterfacesAndSelfTo<MenuState>().AsSingle();
@@ -50,6 +51,9 @@ public class ProjectInstaller : MonoInstaller
         Container.DeclareSignal<OnGameLoaded>();
         Container.DeclareSignal<OnMenuLoadGameClickedSignal>();
         Container.DeclareSignal<OnCheckPointActivated>();
+        Container.DeclareSignal<SettingsSavedSignal>();
+        Container.DeclareSignal<SettingsLoadedSignal>();
+        Container.DeclareSignal<OnSettingsSave>();
 
         //Audio
         Container.BindInstance(_audioSettings).AsSingle();

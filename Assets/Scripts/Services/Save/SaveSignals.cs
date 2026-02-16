@@ -5,6 +5,10 @@ namespace Assets.Scripts.Services.Save
     public class GameSavedSignal { }
     public class GameLoadedSignal { }
 
+    public class SettingsSavedSignal { }
+    public class SettingsLoadedSignal { }
+
+
     public class CoinCollectedSignal
     {
         public string CoinId { get; }

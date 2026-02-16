@@ -2,6 +2,7 @@
 using Assets.Scripts.Utilites;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
@@ -58,17 +59,21 @@ namespace Assets.Scripts.Services.Save.CheckPoints
             _signalBus.Unsubscribe<GameLoadedSignal>(LoadAll);
         }
 
-        private void SaveAll()
+        private async void SaveAll()
         {
             //Здесь можно лучше придумать. Мы каждый раз всё с нуля перезаписываем... 
             //100% не имеет смысла. Пускай пока так будет.
             _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList = new List<CheckpointSaveData>();
+            // _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList = _checkPoints[i];
 
             for (int i = 0; i < _checkpointsCount; i++)
             {
                 CheckpointSaveData saveCheckpoint = _checkPoints[i].Save();
                 _saveLoadService.CurrentSave.checkpointsSaveData.checkpointsList.Add(saveCheckpoint);
             }
+
+            //await Task.Run(() => Test1());
+
         }
 
         private void LoadAll()
@@ -86,5 +91,14 @@ namespace Assets.Scripts.Services.Save.CheckPoints
 
             }
         }
+
+
+        //private void Test1()
+        //{
+        //    for (int j = 0; j < 5000; j++)
+        //    {
+        //        Debug.Log(j);
+        //    }
+        //}
     }
 }

@@ -49,4 +49,12 @@ namespace Assets.Scripts.Services.Save
 
         public Vector3 ToVector3() => new Vector3(x, y, z);
     }
+
+    [Serializable]
+    public class SettingsSaveData
+    {
+        public float MusicVolume;
+        public float SFXVilume;
+        public float UIVolume;
+    }
 }

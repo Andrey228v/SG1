@@ -108,6 +108,7 @@ namespace Assets.Scripts.UI.GameSettings
         {
             gameObject.SetActive(false);
             IsVisible = false;
+            _signalBus.Fire(new OnSettingsSave());
         }
 
         public void SetContinueButtonEnabled(bool enabled)
