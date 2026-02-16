@@ -1,4 +1,5 @@
 using Assets.Scripts.Services.Audio;
+using Assets.Scripts.Services.Save;
 using Assets.Scripts.Utilites;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ public class AudioService : IAudioService, IDisposable
     private readonly AudioMixer _audioMixer;
     private readonly Dictionary<SoundType, AudioClip> _soundMap;
 
+    private SaveLoadSettingsService _saveLoadSettingsService;
     private AudioSource _musicSource;
     private AudioSource _uiSource;
     //private List<AudioSource> _sfxSourcesPool;
@@ -29,11 +31,12 @@ public class AudioService : IAudioService, IDisposable
     public event Action<float> OnSFXVolumeChanged;
     public event Action<float> OnUIVolumeChanged;
 
-    public AudioService(AudioSettingsSO settings, AudioMixer audioMixer)
+    public AudioService(AudioSettingsSO settings, AudioMixer audioMixer, SaveLoadSettingsService saveLoadSettingsService)
     {
         _settings = settings;
         _audioMixer = audioMixer;
         _soundMap = new Dictionary<SoundType, AudioClip>();
+        _saveLoadSettingsService = saveLoadSettingsService;
         //_sfxSourcesPool = new List<AudioSource>();
 
         InitializeSoundMap();
@@ -102,9 +105,19 @@ public class AudioService : IAudioService, IDisposable
 
     private void LoadVolumes()
     {
-        _musicVolume = PlayerPrefs.GetFloat("MusicVolume", _settings.defaultMusicVolume);
-        _sfxVolume = PlayerPrefs.GetFloat("SFXVolume", _settings.defaultSFXVolume);
-        _uiVolume = PlayerPrefs.GetFloat("UIVolume", _settings.defaultUIVolume);
+        if (_saveLoadSettingsService.HasSave() == false)
+        {
+            _musicVolume = _settings.defaultMusicVolume;
+            _sfxVolume = _settings.defaultSFXVolume;
+            _uiVolume = _settings.defaultUIVolume;
+        }
+        else
+        {
+            SettingsSaveData load = _saveLoadSettingsService.LoadSettings();
+            _musicVolume = load.MusicVolume;
+            _sfxVolume = load.SFXVilume;
+            _uiVolume = load.UIVolume;
+        }
 
         ApplyVolumes();
     }

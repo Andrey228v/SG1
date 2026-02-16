@@ -9,5 +9,7 @@
     public class OnBackButtonGameClickedSignal { }
 
     public class OnExitButtonGameClickedSignal { }
-       
+
+    public class OnSettingsSave { }
+
 }

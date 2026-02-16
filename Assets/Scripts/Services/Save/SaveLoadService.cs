@@ -22,6 +22,7 @@ namespace Assets.Scripts.Services.Save
         private SignalBus _signalBus;
         private bool _isFirstLoad = true;
         public GameSaveData CurrentSave { get; private set; }
+        
 
         public event Action OnGameSaved;
         public event Action OnGameLoaded;
@@ -54,12 +55,12 @@ namespace Assets.Scripts.Services.Save
             SaveGame();
         }
 
-        public void SaveProgress(PlayerProgress progress)
-        {
-            string json = JsonUtility.ToJson(progress);
-            PlayerPrefs.SetString(SAVE_KEY_PROGRESS, json);
-            PlayerPrefs.Save();
-        }
+        //public void SaveProgress(PlayerProgress progress)
+        //{
+        //    string json = JsonUtility.ToJson(progress);
+        //    PlayerPrefs.SetString(SAVE_KEY_PROGRESS, json);
+        //    PlayerPrefs.Save();
+        //}
 
         public void SaveGame()
         {
@@ -92,17 +93,17 @@ namespace Assets.Scripts.Services.Save
 
         //Загрузка прогресса... 
         //Надо ли это пока не знаю...
-        public PlayerProgress LoadProgress()
-        {
-            if (HasSave() == false)
-            {
-                return new PlayerProgress();
-            }
+        //public PlayerProgress LoadProgress()
+        //{
+        //    if (HasSave() == false)
+        //    {
+        //        return new PlayerProgress();
+        //    }
 
-            _isFirstLoad = false;
-            string json = PlayerPrefs.GetString(SAVE_KEY_PROGRESS);
-            return JsonUtility.FromJson<PlayerProgress>(json);
-        }
+        //    _isFirstLoad = false;
+        //    string json = PlayerPrefs.GetString(SAVE_KEY_PROGRESS);
+        //    return JsonUtility.FromJson<PlayerProgress>(json);
+        //}
 
         public void LoadGame()
         {
