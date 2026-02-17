@@ -26,11 +26,13 @@ namespace Assets.Scripts.Services.Save
         public void Initialize()
         {
             _signalBus.Subscribe<OnSettingsSave>(SaveSettings);
+            //_signalBus.Subscribe<OnGameInitialized>(Load);
         }
 
         public void Dispose()
         {
             _signalBus.Unsubscribe<OnSettingsSave>(SaveSettings);
+            //_signalBus.Unsubscribe<OnGameInitialized>(Load);
         }
 
         public void SaveSettings()
@@ -48,15 +50,25 @@ namespace Assets.Scripts.Services.Save
             PlayerPrefs.Save();
         }
 
+        public void Load()
+        {
+            CurrentSave = LoadSettings();
+        }
+
         public SettingsSaveData LoadSettings()
         {
+            if (HasSave() == false)
+            {
+                return new SettingsSaveData();
+            }
+
             string json = PlayerPrefs.GetString(SAVE_SETTINGS);
             return JsonUtility.FromJson<SettingsSaveData>(json);
         }
 
         public bool HasSave()
         {
-            return PlayerPrefs.HasKey(SAVE_SETTINGS) == false;
+            return PlayerPrefs.HasKey(SAVE_SETTINGS);
         }
 
         public void DeleteSave()

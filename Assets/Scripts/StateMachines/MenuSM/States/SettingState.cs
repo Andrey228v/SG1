@@ -14,12 +14,12 @@ namespace Assets.Scripts.StateMachines.MenuSM.States
 
         public void Enter()
         {
-            _settingsPanel.gameObject.SetActive(true);
+            _settingsPanel.Show();
         }
 
         public void Exit()
         {
-            _settingsPanel.gameObject.SetActive(false);
+            _settingsPanel.Hide();
         }
     }
 }
