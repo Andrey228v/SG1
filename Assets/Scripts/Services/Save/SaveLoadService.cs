@@ -109,7 +109,7 @@ namespace Assets.Scripts.Services.Save
         {
             if (HasSave() == false) 
             {
-                //CurrentSave = new GameSaveData(); // тут ошибка. Затираются данные.
+                //CurrentSave = new GameSaveData(); // тут ошибка. Затираются данные. Но без этой строчки может ли ошибка вылетать если 0 сохр....
                 _signalBus.Fire(new GameLoadedSignal());
                 return;
             }
